@@ -1,0 +1,14 @@
+# python / uv
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+
+# build output
+build/
+dist/
+
+# node dev deps (katex validator only)
+node_modules/
+.cache/
