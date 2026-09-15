@@ -12,3 +12,10 @@ dist/
 # node dev deps (katex validator only)
 node_modules/
 .cache/
+
+# upstream checkouts (reproducible via docs/sources.md, not committed)
+# cnxml/ = openstax/cnxml, cnxml2md/ = Ravenstine/cnxml2md baseline,
+# osbooks-calculus-bundle/ = openstax content (356MB)
+cnxml/
+cnxml2md/
+osbooks-calculus-bundle/
