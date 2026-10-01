@@ -147,3 +147,48 @@ def test_mspace_commands_are_terminated() -> None:
         '<math><mrow><mspace width="1em"/><mi>y</mi><mspace width="0.2em"/><mi>n</mi></mrow></math>'
     )
     assert conv(xml) == "$\\quad y\\,n$"
+
+
+def test_mtable_matrix_and_cases() -> None:
+    matrix_xml = (
+        "<math><mtable>"
+        "<mtr><mtd><mn>1</mn></mtd><mtd><mn>2</mn></mtd></mtr>"
+        "<mtr><mtd><mn>3</mn></mtd><mtd><mn>4</mn></mtd></mtr>"
+        "</mtable></math>"
+    )
+    assert "\\begin{matrix}" in conv(matrix_xml)
+    assert "1 & 2 \\\\ 3 & 4" in conv(matrix_xml)
+
+    cases_xml = (
+        '<math><mfenced open="{"><mtable>'
+        "<mtr><mtd><mn>1</mn></mtd></mtr>"
+        "<mtr><mtd><mn>2</mn></mtd></mtr>"
+        "</mtable></mfenced></math>"
+    )
+    assert "\\begin{cases}" in conv(cases_xml)
+
+
+def test_limits_and_underover() -> None:
+    lim_xml = (
+        "<math><munder><mi>lim</mi><mrow><mi>x</mi><mo>→</mo><mn>0</mn></mrow></munder></math>"
+    )
+    assert "\\lim_{" in conv(lim_xml)
+
+    sum_xml = "<math><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover></math>"
+    assert "\\sum_{" in conv(sum_xml)
+
+
+def test_menclose_and_delimiters() -> None:
+    boxed = '<math><menclose notation="box"><mi>x</mi></menclose></math>'
+    assert "\\boxed{x}" in conv(boxed)
+
+    c_bracket = MathMLConverter(delimiters="bracket")
+    assert c_bracket.render(etree.fromstring("<math><mi>x</mi></math>")) == "\\(x\\)"
+    assert (
+        c_bracket.render(etree.fromstring("<math><mi>x</mi></math>"), force_display=True)
+        == "\\[x\\]"
+    )
+
+    c_none = MathMLConverter(delimiters="none")
+    assert c_none.render(etree.fromstring("<math><mi>x</mi></math>")) == "x"
+    assert c_none.render(etree.fromstring("<math></math>")) == ""
