@@ -28,20 +28,18 @@ import urllib.request
 from html.parser import HTMLParser
 from pathlib import Path
 
-from lxml import etree
-
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from cnxml2md.book import Bundle  # noqa: E402
+from cnxml2md.book import Bundle
 
 BASE = "https://openstax.org/books/{book}/pages/{page}"
 LABEL_RE = re.compile(r"\b(Figure|Table|Example|Checkpoint)\s+(\d+\.\d+)\b")
 OBJECTIVE_RE = re.compile(r"\b(\d+\.\d+\.\d+)\s+([A-Z][^\n]{10,160})")
-WORD_RE = re.compile(r"[A-Za-z][A-Za-z'’\-]{3,}")
+WORD_RE = re.compile(r"[A-Za-z][A-Za-z'’\-]{3,}")  # noqa: RUF001
 #: site chrome only -- note that in-content titles live in <header> elements on
 #: OpenStax pages, so that tag must *not* be skipped
 SKIP_TAGS = {"script", "style", "noscript", "svg", "nav", "aside", "footer"}
-MAIN_RE = re.compile(r"<main\b[^>]*>(.*?)</main>", re.S | re.I)
+MAIN_RE = re.compile(r"<main\b[^>]*>(.*?)</main>", re.DOTALL | re.IGNORECASE)
 
 
 class _Text(HTMLParser):
@@ -107,7 +105,9 @@ def section_pages(bundle: Bundle, book: str, per_chapter: int, sections: int | N
     """Map ``(module_id, url)`` for the sections of one book."""
     collection = next((c for c in bundle.collections if c.slug == book), None)
     if collection is None:
-        raise SystemExit(f"unknown book {book!r}; available: {[c.slug for c in bundle.collections]}")
+        raise SystemExit(
+            f"unknown book {book!r}; available: {[c.slug for c in bundle.collections]}"
+        )
     per_chapter_count: dict[str, int] = {}
     out = []
     for entry in collection.entries:
@@ -149,7 +149,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--sections", type=int, default=None, help="stop after N sections in total")
     parser.add_argument("--cache", type=Path, default=Path(".cache/openstax"))
     parser.add_argument("--refresh", action="store_true")
-    parser.add_argument("--min-coverage", type=float, default=0.90, help="required published-word coverage")
+    parser.add_argument(
+        "--min-coverage", type=float, default=0.90, help="required published-word coverage"
+    )
     args = parser.parse_args(argv)
 
     bundle = Bundle.discover(args.bundle)
@@ -175,11 +177,17 @@ def main(argv: list[str] | None = None) -> int:
             published_labels = {f"{kind} {number}" for kind, number in LABEL_RE.findall(text)}
             missing_labels = sorted(label for label in published_labels if label not in markdown)
             if missing_labels:
-                problems.append(f"{len(missing_labels)} published labels missing: {missing_labels[:5]}")
+                problems.append(
+                    f"{len(missing_labels)} published labels missing: {missing_labels[:5]}"
+                )
             compiled_labels = {f"{kind} {number}" for kind, number in LABEL_RE.findall(markdown)}
-            extra_labels = sorted(label for label in compiled_labels if label not in published_labels)
+            extra_labels = sorted(
+                label for label in compiled_labels if label not in published_labels
+            )
             if extra_labels:
-                problems.append(f"{len(extra_labels)} labels not on the published page: {extra_labels[:5]}")
+                problems.append(
+                    f"{len(extra_labels)} labels not on the published page: {extra_labels[:5]}"
+                )
 
             published_objectives = set(OBJECTIVE_RE.findall(text))
             missing_objectives = []
@@ -187,14 +195,18 @@ def main(argv: list[str] | None = None) -> int:
                 if sentence[:40] not in markdown or number not in markdown:
                     missing_objectives.append(f"{number} {sentence[:50]}")
             if missing_objectives:
-                problems.append(f"{len(missing_objectives)} objectives missing: {missing_objectives[:2]}")
+                problems.append(
+                    f"{len(missing_objectives)} objectives missing: {missing_objectives[:2]}"
+                )
 
             words = {w.lower() for w in WORD_RE.findall(text)}
             missing_words = {w for w in words if w not in markdown.lower()}
             coverage = 1 - len(missing_words) / max(len(words), 1)
             if coverage < args.min_coverage:
                 worst = sorted(missing_words)[:8]
-                problems.append(f"coverage {coverage:.1%} < {args.min_coverage:.0%} (missing e.g. {worst})")
+                problems.append(
+                    f"coverage {coverage:.1%} < {args.min_coverage:.0%} (missing e.g. {worst})"
+                )
 
             status = "ok" if not problems else "FAIL"
             print(

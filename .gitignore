@@ -4,6 +4,11 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 .ruff_cache/
+.mypy_cache/
+.coverage
+coverage.xml
+htmlcov/
+*.egg-info/
 
 # build output
 build/
@@ -14,8 +19,8 @@ node_modules/
 .cache/
 
 # upstream checkouts (reproducible via docs/sources.md, not committed)
-# cnxml/ = openstax/cnxml, cnxml2md/ = Ravenstine/cnxml2md baseline,
-# osbooks-calculus-bundle/ = openstax content (356MB)
-cnxml/
-cnxml2md/
-osbooks-calculus-bundle/
+# /cnxml/ = openstax/cnxml, /cnxml2md/ = Ravenstine/cnxml2md baseline,
+# /osbooks-calculus-bundle/ = openstax content (356MB)
+/cnxml/
+/cnxml2md/
+/osbooks-calculus-bundle/

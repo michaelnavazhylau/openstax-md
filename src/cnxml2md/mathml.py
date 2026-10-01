@@ -69,9 +69,6 @@ _OPERATORS: dict[str, str] = {
     "\u2206": r"\Delta",
     "\u03c0": r"\pi",
     "\u03b8": r"\theta",
-    "\u03b1": r"\alpha",
-    "\u03b2": r"\beta",
-    "\u03b3": r"\gamma",
     "\u03bb": r"\lambda",
     "\u03bc": r"\mu",
     "\u03c3": r"\sigma",
@@ -385,7 +382,7 @@ class MathMLConverter:
         """Render any MathML element to raw LaTeX."""
         handler = getattr(self, "_" + _localname(node).replace("-", "_"), None)
         if handler is not None:
-            return handler(node)
+            return str(handler(node))
         return self._children(node)
 
     # -- generic helpers ---------------------------------------------------
@@ -469,7 +466,7 @@ class MathMLConverter:
         if not text.strip():
             return ""
         stripped = text.strip()
-        # single symbols (∞, −, ≤ ...) render better as math than inside \text
+        # single symbols (\u221e, -, \u2264 ...) render better as math than inside \text
         if stripped in _OPERATORS:
             return _terminate(_OPERATORS[stripped])
         # \text{sin}\,x -> \sin x (proper operator spacing/rendering)
@@ -540,7 +537,7 @@ class MathMLConverter:
                 if value <= limit:
                     return _terminate(latex)
             return _terminate(r"\qquad")
-        if width.endswith("ex") or width.endswith("pt"):
+        if width.endswith(("ex", "pt")):
             return _terminate(r"\," if width in ("0.2ex", "1pt") else r"\;")
         return r"\,"
 
@@ -637,7 +634,7 @@ class MathMLConverter:
     def _munder(self, node) -> str:
         base = self._child(node, 0)
         under = self._child(node, 1)
-        base_text = _plain_text(list(node)[0]).strip() if len(node) else ""
+        base_text = _plain_text(next(iter(node))).strip() if len(node) else ""
         command = _function_command(base_text)
         if command is not None:
             return f"{command.strip()}_{{{under}}}"
@@ -649,7 +646,7 @@ class MathMLConverter:
         base = self._child(node, 0)
         under = self._child(node, 1)
         over = self._child(node, 2)
-        base_text = _plain_text(list(node)[0]).strip() if len(node) else ""
+        base_text = _plain_text(next(iter(node))).strip() if len(node) else ""
         command = _function_command(base_text)
         if command is not None:
             return f"{command.strip()}_{{{under}}}^{{{over}}}"
@@ -658,21 +655,13 @@ class MathMLConverter:
         return r"\overset{" + over + r"}{\underset{" + under + "}{" + base + "}}"
 
     def _mtable(self, node) -> str:
-        rows = [
-            self._mtr(child)
-            for child in node
-            if _localname(child) in ("mtr", "mlabeledtr")
-        ]
+        rows = [self._mtr(child) for child in node if _localname(child) in ("mtr", "mlabeledtr")]
         env = "cases" if self._is_cases_table(node) else "matrix"
         body = r" \\ ".join(row for row in rows if row.strip())
         return f"\\begin{{{env}}} {body} \\end{{{env}}}"
 
     def _mtr(self, node) -> str:
-        cells = [
-            self.to_latex(child)
-            for child in node
-            if _localname(child) in ("mtd",)
-        ]
+        cells = [self.to_latex(child) for child in node if _localname(child) in ("mtd",)]
         return " & ".join(cells)
 
     def _mtd(self, node) -> str:

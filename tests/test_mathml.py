@@ -22,20 +22,13 @@ def latex(xml: str) -> str:
 def test_fraction_and_power() -> None:
     assert conv("<math><mfrac><mn>1</mn><mi>x</mi></mfrac></math>") == "$\\frac{1}{x}$"
     assert conv("<math><msup><mi>x</mi><mn>2</mn></msup></math>") == "$x^{2}$"
-    assert (
-        conv("<math><msub><mi>x</mi><mn>1</mn></msub></math>") == "$x_{1}$"
-    )
-    assert (
-        conv("<math><msubsup><mi>x</mi><mn>1</mn><mn>2</mn></msubsup></math>")
-        == "$x_{1}^{2}$"
-    )
+    assert conv("<math><msub><mi>x</mi><mn>1</mn></msub></math>") == "$x_{1}$"
+    assert conv("<math><msubsup><mi>x</mi><mn>1</mn><mn>2</mn></msubsup></math>") == "$x_{1}^{2}$"
 
 
 def test_roots() -> None:
     assert conv("<math><msqrt><mi>x</mi></msqrt></math>") == "$\\sqrt{x}$"
-    assert (
-        conv("<math><mroot><mi>x</mi><mn>3</mn></mroot></math>") == "$\\sqrt[3]{x}$"
-    )
+    assert conv("<math><mroot><mi>x</mi><mn>3</mn></mroot></math>") == "$\\sqrt[3]{x}$"
 
 
 def test_limit_underscript() -> None:
@@ -77,10 +70,7 @@ def test_cases_table() -> None:
 
 
 def test_fenced_with_separators() -> None:
-    xml = (
-        '<math><mfenced open="[" close="]" separators=";">'
-        "<mn>1</mn><mn>2</mn></mfenced></math>"
-    )
+    xml = '<math><mfenced open="[" close="]" separators=";"><mn>1</mn><mn>2</mn></mfenced></math>'
     assert conv(xml) == "$\\left[ 1 ; 2 \\right]$"
 
 
@@ -98,7 +88,7 @@ def test_symbol_in_mtext_becomes_math() -> None:
 
 
 def test_accents_and_spaces() -> None:
-    xml = "<math><mover accent=\"true\"><mi>f</mi><mo>\u2032</mo></mover></math>"
+    xml = '<math><mover accent="true"><mi>f</mi><mo>\u2032</mo></mover></math>'
     out = conv(xml)
     assert "f" in out
     assert conv('<math><mspace width="0.2em"/></math>') == "$\\,$"
@@ -133,14 +123,14 @@ def test_empty_math_is_dropped() -> None:
 
 def test_empty_script_base_is_braced() -> None:
     """<m:msup><m:mrow/><m:mi>n</m:mi></m:msup> must not produce a bare '^{n}'."""
-    xml = "<math><mrow><msup><mi>x</mi><mn>2</mn></msup><msup><mrow/><mi>n</mi></msup></mrow></math>"
+    xml = (
+        "<math><mrow><msup><mi>x</mi><mn>2</mn></msup><msup><mrow/><mi>n</mi></msup></mrow></math>"
+    )
     assert conv(xml) == "$x^{2}{}^{n}$"
 
 
 def test_nested_script_base_is_wrapped() -> None:
-    xml = (
-        "<math><msup><mrow><msup><mi>x</mi><mn>2</mn></msup></mrow><mi>n</mi></msup></math>"
-    )
+    xml = "<math><msup><mrow><msup><mi>x</mi><mn>2</mn></msup></mrow><mi>n</mi></msup></math>"
     assert conv(xml) == "${x^{2}}^{n}$"
 
 
@@ -154,7 +144,6 @@ def test_greek_and_invisible_characters() -> None:
 
 def test_mspace_commands_are_terminated() -> None:
     xml = (
-        '<math><mrow><mspace width="1em"/><mi>y</mi>'
-        '<mspace width="0.2em"/><mi>n</mi></mrow></math>'
+        '<math><mrow><mspace width="1em"/><mi>y</mi><mspace width="0.2em"/><mi>n</mi></mrow></math>'
     )
     assert conv(xml) == "$\\quad y\\,n$"

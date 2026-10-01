@@ -22,7 +22,9 @@ BUNDLE = REPO_ROOT / "osbooks-calculus-bundle"
 pytestmark = pytest.mark.bundle
 
 MATHML_LEFTOVER = re.compile(r"</?m:[a-zA-Z]+")
-CNXML_LEFTOVER = re.compile(r"</?(para|section|exercise|problem|solution|commentary|glossary|caption)\b")
+CNXML_LEFTOVER = re.compile(
+    r"</?(para|section|exercise|problem|solution|commentary|glossary|caption)\b"
+)
 LINK = re.compile(r"!?\[[^\]]*\]\(([^)\s]+)\)")
 
 
@@ -79,13 +81,13 @@ def test_worked_examples_are_preserved(built) -> None:
 
 
 def test_links_and_images_resolve(built) -> None:
-    out, bundle, _ = built
+    out, _bundle, _ = built
     broken: list[str] = []
     checked = 0
     for path in out.rglob("*.md"):
         text = path.read_text(encoding="utf-8")
         for target in LINK.findall(text):
-            if re.match(r"^[a-z]+:", target, re.I):
+            if re.match(r"^[a-z]+:", target, re.IGNORECASE):
                 continue
             checked += 1
             file_part, _, fragment = target.partition("#")
@@ -93,7 +95,7 @@ def test_links_and_images_resolve(built) -> None:
             if not resolved.exists():
                 broken.append(f"{path.name}: {target}")
                 continue
-            if fragment.startswith("fs-") or fragment.startswith("CNX"):
+            if fragment.startswith(("fs-", "CNX")):
                 target_text = resolved.read_text(encoding="utf-8")
                 if f'id="{fragment}"' not in target_text:
                     broken.append(f"{path.name}: missing anchor {fragment}")
@@ -108,7 +110,7 @@ def test_cross_module_link_points_at_the_right_module(built) -> None:
 
 
 def test_metadata_front_matter_comes_from_cnxml_lib(built) -> None:
-    out, bundle, _ = built
+    out, _bundle, _ = built
     lib = CnxmlLib.load([BUNDLE.parent / "cnxml"])
     if not lib.available:
         pytest.skip("cnxml library not importable")

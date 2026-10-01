@@ -14,7 +14,9 @@ import sys
 from pathlib import Path
 from urllib.parse import unquote
 
-RAW_XML_RE = re.compile(r"</?(m:|cnx:|col:|md:|c:)?(para|section|document|metadata|figure|caption|exercise|problem)\b")
+RAW_XML_RE = re.compile(
+    r"</?(m:|cnx:|col:|md:|c:)?(para|section|document|metadata|figure|caption|exercise|problem)\b"
+)
 MATHML_LEFTOVER_RE = re.compile(r"</?m:[a-z]+")
 EMPTY_LINK_RE = re.compile(r"\[\s*\]\(")
 LINK_RE = re.compile(r"!?\[[^\]]*\]\(([^)\s]+)\)")
@@ -23,7 +25,10 @@ LINK_RE = re.compile(r"!?\[[^\]]*\]\(([^)\s]+)\)")
 def main(out_dir: str, media_root: str | None = None) -> int:
     out = Path(out_dir).resolve()
     if not out.is_dir():
-        print(f"usage: verify_output.py <compiled-output-dir>\nnot a directory: {out}", file=sys.stderr)
+        print(
+            f"usage: verify_output.py <compiled-output-dir>\nnot a directory: {out}",
+            file=sys.stderr,
+        )
         return 2
     files = sorted(out.rglob("*.md"))
     problems: list[str] = []

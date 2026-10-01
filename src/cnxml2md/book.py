@@ -2,19 +2,18 @@
 
 from __future__ import annotations
 
-import json
 import os
 import re
 import shutil
 from collections import Counter
+from collections.abc import Iterable
 from dataclasses import dataclass, field, replace
 from pathlib import Path
-from typing import Iterable, Iterator
 from urllib.parse import quote
 
 from lxml import etree
 
-from .cnxml_bridge import COLLXML_NS, MDML_NS, CnxmlLib
+from .cnxml_bridge import CnxmlLib
 from .convert import (
     ModuleInfo,
     ModuleRenderer,
@@ -44,7 +43,7 @@ def demote_headings(text: str, levels: int = 1) -> str:
 
     def repl(match: re.Match) -> str:
         hashes = "#" * min(6, len(match.group(1)) + levels)
-        return hashes + match.group(2)
+        return hashes + str(match.group(2))
 
     return _HEADING_RE.sub(repl, text)
 
@@ -64,7 +63,9 @@ class Numbering:
     ``scripts/compare_with_openstax.py``).
     """
 
-    labels: dict[str, dict[str, dict[str, str]]] = field(default_factory=dict)  # collection -> module -> id -> label
+    labels: dict[str, dict[str, dict[str, str]]] = field(
+        default_factory=dict
+    )  # collection -> module -> id -> label
     objectives: dict[str, dict[str, list[str]]] = field(default_factory=dict)
     sections: dict[str, dict[str, str]] = field(default_factory=dict)  # module id -> "1.1"
     fallback: dict[str, str] = field(default_factory=dict)
@@ -151,7 +152,7 @@ class Bundle:
     # -- discovery ---------------------------------------------------------
 
     @classmethod
-    def discover(cls, root: Path, lib: CnxmlLib | None = None) -> "Bundle":
+    def discover(cls, root: Path, lib: CnxmlLib | None = None) -> Bundle:
         bundle = cls(root, lib)
         bundle._discover_collections()
         bundle.load_modules()
@@ -159,11 +160,13 @@ class Bundle:
         return bundle
 
     @classmethod
-    def from_module(cls, path: Path, lib: CnxmlLib | None = None) -> "Bundle":
+    def from_module(cls, path: Path, lib: CnxmlLib | None = None) -> Bundle:
         """Wrap a single CNXML file (no collection context)."""
         path = path.resolve()
         source = path if path.is_file() else path / "index.cnxml"
-        root = source.parent.parent.parent if source.parent.parent.name == "modules" else source.parent
+        root = (
+            source.parent.parent.parent if source.parent.parent.name == "modules" else source.parent
+        )
         bundle = cls(root, lib)
         module = ModuleInfo(id=source.parent.name, source=source)
         module.metadata = _safe_metadata(bundle.lib, source)
@@ -266,7 +269,7 @@ class Bundle:
             try:
                 with open(module.source, "rb") as fh:
                     root = etree.parse(fh).getroot()
-            except Exception as exc:  # pragma: no cover - malformed input
+            except Exception:  # pragma: no cover - malformed input
                 continue
             trees[module.id] = root
             for el in root.iter():
@@ -343,7 +346,9 @@ class Bundle:
                     if not chapter or not section:
                         continue
                     number = f"{chapter}.{chapter_counters[kind]}"
-                    label = f"({number})" if kind == "equation" else f"{_NUMBERED_KINDS[kind]} {number}"
+                    label = (
+                        f"({number})" if kind == "equation" else f"{_NUMBERED_KINDS[kind]} {number}"
+                    )
                     element_id = el.get("id")
                     if element_id:
                         per_element.setdefault(module.id, {})[element_id] = label
@@ -368,7 +373,7 @@ class Bundle:
         items = [el for el in abstract.iter() if localname(el) == "item"]
         return [f"{chapter}.{section}.{index + 1}" for index in range(len(items))]
 
-    def lookup_target(self, module_id: str | None, target_id: str) -> Target | None:
+    def lookup_target(self, module_id: str | None, target_id: str | None) -> Target | None:
         """Resolve a target id, preferring the module that owns the reference."""
         if target_id is None:
             return None
@@ -439,7 +444,7 @@ def _referenced_modules(source: Path) -> set[str]:
 class BuildContext:
     """Everything the renderer needs to know about the surrounding build."""
 
-    def __init__(self, builder: "Builder", module: ModuleInfo, out_path: Path) -> None:
+    def __init__(self, builder: Builder, module: ModuleInfo, out_path: Path) -> None:
         self.builder = builder
         self.bundle = builder.bundle
         self.options: RenderOptions = builder.options
@@ -611,9 +616,7 @@ class Builder:
         if self.single_file:
             return self.out_dir / f"{slug or 'standalone'}.md"
         if self.layout == "flat" and slug:
-            collection = next(
-                (c for c in self.bundle.collections if c.slug == slug), None
-            )
+            collection = next((c for c in self.bundle.collections if c.slug == slug), None)
             index = collection.module_ids.index(module_id) + 1 if collection else 0
             name = f"{index:02d}-{slugify(module.title)}.md"
             return self.out_dir / slug / name
@@ -633,7 +636,7 @@ class Builder:
         src = (src or "").strip()
         if not src:
             return ""
-        if re.match(r"^[a-z]+:", src, re.I):
+        if re.match(r"^[a-z]+:", src, re.IGNORECASE):
             return src
         source_path = (module.source.parent / src).resolve()
         if not source_path.exists():
@@ -699,8 +702,7 @@ class Builder:
         if ids is None:
             ids = list(self.bundle.modules)
         # keep build order, drop duplicates (modules shared between books)
-        seen: set[str] = set()
-        ids = [mid for mid in ids if not (mid in seen or seen.add(mid))]
+        ids = list(dict.fromkeys(ids))
         if self.with_deps:
             ids = self._expand_dependencies(ids)
         self._compute_out_paths(self._selected_collection_slugs, ids)
@@ -724,7 +726,8 @@ class Builder:
                 continue
             text = self.render_module(module)
             out_path = self.out_path_for(module_id)
-            self._write(out_path, text)
+            if out_path is not None:
+                self._write(out_path, text)
         for collection in self._collections_to_index(ids):
             self._write(self._collection_index_path(collection), self._collection_index(collection))
             self._indexed_collections.append(collection)
@@ -733,7 +736,11 @@ class Builder:
         built = set(ids)
         if self._selection is not None and not self.with_deps:
             wanted = set(self._selection)
-            return [c for c in self.bundle.collections if c.slug in wanted and any(m in built for m in c.module_ids)]
+            return [
+                c
+                for c in self.bundle.collections
+                if c.slug in wanted and any(m in built for m in c.module_ids)
+            ]
         return [c for c in self.bundle.collections if any(m in built for m in c.module_ids)]
 
     def _expand_dependencies(self, ids: list[str]) -> list[str]:
@@ -755,7 +762,9 @@ class Builder:
                     queue.append(dependency)
         # keep the bundle's stable order, requested modules first
         ordered = [mid for mid in ids if mid in selected]
-        ordered.extend(mid for mid in self.bundle.modules if mid in selected and mid not in set(ids))
+        ordered.extend(
+            mid for mid in self.bundle.modules if mid in selected and mid not in set(ids)
+        )
         return ordered
 
     def _build_single_file(self, ids: list[str]) -> None:
@@ -766,7 +775,11 @@ class Builder:
         for slug, module_ids in grouped.items():
             collection = next((c for c in self.bundle.collections if c.slug == slug), None)
             title = collection.title if collection else slug.replace("-", " ").title()
-            parts = [self._book_front_matter(collection, module_ids), f"# {title}", self._toc(module_ids, link_targets=False)]
+            parts = [
+                self._book_front_matter(collection, module_ids),
+                f"# {title}",
+                self._toc(module_ids, link_targets=False),
+            ]
             for module_id in module_ids:
                 module = self.bundle.modules.get(module_id)
                 if module is None:
@@ -785,7 +798,10 @@ class Builder:
         return self.out_dir / "collections" / f"{collection.slug}.md"
 
     def _collection_index(self, collection: CollectionInfo) -> str:
-        parts = [self._book_front_matter(collection, collection.module_ids), f"# {collection.title}"]
+        parts = [
+            self._book_front_matter(collection, collection.module_ids),
+            f"# {collection.title}",
+        ]
         same_dir = self.layout == "flat"
         base = self._collection_index_path(collection).parent
         parts.append(self._toc(collection.module_ids, link_targets=not same_dir, base=base))
@@ -805,9 +821,7 @@ class Builder:
             if module is None:
                 continue
             slug = self._module_collection_slug(module_id)
-            collection = next(
-                (c for c in self.bundle.collections if c.slug == slug), None
-            )
+            collection = next((c for c in self.bundle.collections if c.slug == slug), None)
             entry = None
             if collection is not None:
                 entry = next((e for e in collection.entries if e.module_id == module_id), None)
@@ -858,7 +872,9 @@ class Builder:
                 else self._collection_index_path(collection)
             )
             href = os.path.relpath(path, self.out_dir).replace(os.sep, "/")
-            lines.append(f"- [{collection.title}]({quote(href, safe='/:')}) — {len(collection.entries)} modules")
+            lines.append(
+                f"- [{collection.title}]({quote(href, safe='/:')}) — {len(collection.entries)} modules"
+            )
         self._write(self.out_dir / "index.md", "\n".join(lines))
 
     # -- validation --------------------------------------------------------

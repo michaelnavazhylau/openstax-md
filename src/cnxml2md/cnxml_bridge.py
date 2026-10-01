@@ -86,7 +86,7 @@ class CnxmlLib:
     # -- loading -----------------------------------------------------------
 
     @classmethod
-    def load(cls, search_paths: list[Path] | None = None) -> "CnxmlLib":
+    def load(cls, search_paths: list[Path] | None = None) -> CnxmlLib:
         for root in _candidates(list(search_paths or [])):
             root_str = str(root)
             added = root_str not in sys.path
@@ -94,7 +94,7 @@ class CnxmlLib:
                 sys.path.insert(0, root_str)
             try:
                 from cnxml.parse import NSMAP, parse_metadata  # type: ignore
-            except Exception as exc:  # pragma: no cover - depends on env
+            except Exception:  # pragma: no cover - depends on env
                 if added:
                     sys.path.remove(root_str)
                 continue
@@ -181,8 +181,6 @@ def read_metadata(path: Path) -> dict:
         "slug": find_text("slug"),
         "license_url": (license_el.get("url") if license_el is not None else None),
         "license_text": (
-            (license_el.text or "").strip()
-            if license_el is not None and license_el.text
-            else None
+            (license_el.text or "").strip() if license_el is not None and license_el.text else None
         ),
     }

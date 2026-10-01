@@ -16,13 +16,13 @@ Differences from the original JavaScript ``cnxml2md`` this replaces:
 from __future__ import annotations
 
 import re
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any
 
 from lxml import etree
 
-from .cnxml_bridge import MATHML_NS
 from .mathml import MathMLConverter
 
 _WS_RE = re.compile(r"[ \t\r\f\v]+")
@@ -144,7 +144,7 @@ class ModuleRenderer:
         self._consumed_titles: set = set()
         self._in_example = 0
         self._exercise_counter = 0
-        self._blocks = {
+        self._blocks: dict[str, Callable[[Any, int], str]] = {
             "document": self._document,
             "content": self._container,
             "section": self._section,
@@ -170,7 +170,7 @@ class ModuleRenderer:
             "label": self._label_block,
             "target": self._container,
         }
-        self._inline = {
+        self._inline: dict[str, Callable[[Any], str]] = {
             "emphasis": self._emphasis,
             "term": self._term,
             "sup": self._sup,
@@ -180,7 +180,7 @@ class ModuleRenderer:
             "newline": self._newline,
             "media": self._media,
             "image": self._image,
-            "caption": self._caption_block,
+            "caption": self._caption_inline,
         }
 
     # ------------------------------------------------------------------
@@ -239,9 +239,13 @@ class ModuleRenderer:
             ("language", meta.get("language")),
             ("license", meta.get("license_text")),
             ("license_url", meta.get("license_url")),
-            ("source", str(self.module.source.relative_to(self.ctx.bundle_root))
-                if self.ctx.bundle_root and self._is_relative(self.module.source, self.ctx.bundle_root)
-                else str(self.module.source)),
+            (
+                "source",
+                str(self.module.source.relative_to(self.ctx.bundle_root))
+                if self.ctx.bundle_root
+                and self._is_relative(self.module.source, self.ctx.bundle_root)
+                else str(self.module.source),
+            ),
             ("generator", "cnxml2md (python)"),
         ]
         lines = ["---"]
@@ -344,9 +348,7 @@ class ModuleRenderer:
 
     def _clean_inline(self, text: str) -> str:
         if "\n" in text:
-            return "\n".join(
-                _WS_RE.sub(" ", line).strip() for line in text.split("\n")
-            ).strip()
+            return "\n".join(_WS_RE.sub(" ", line).strip() for line in text.split("\n")).strip()
         return _WS_RE.sub(" ", text).strip()
 
     @staticmethod
@@ -416,9 +418,12 @@ class ModuleRenderer:
     def _para(self, el, depth: int) -> str:
         return self._inline_of(el)
 
-    def _caption_block(self, el, depth: int) -> str:
+    def _caption_inline(self, el) -> str:
         text = self._inline_of(el).strip()
         return f"*{text}*" if text else ""
+
+    def _caption_block(self, el, depth: int) -> str:
+        return self._caption_inline(el)
 
     def _list(self, el, depth: int) -> str:
         ordered = (el.get("list-type") or "") == "enumerated"
@@ -445,9 +450,19 @@ class ModuleRenderer:
         upper = style.startswith("upper")
         if "roman" in style:
             values = (
-                (1000, "m"), (900, "cm"), (500, "d"), (400, "cd"),
-                (100, "c"), (90, "xc"), (50, "l"), (40, "xl"),
-                (10, "x"), (9, "ix"), (5, "v"), (4, "iv"), (1, "i"),
+                (1000, "m"),
+                (900, "cm"),
+                (500, "d"),
+                (400, "cd"),
+                (100, "c"),
+                (90, "xc"),
+                (50, "l"),
+                (40, "xl"),
+                (10, "x"),
+                (9, "ix"),
+                (5, "v"),
+                (4, "iv"),
+                (1, "i"),
             )
             out, n = "", max(number, 1)
             for value, letters in values:
@@ -523,11 +538,7 @@ class ModuleRenderer:
         return row + [""] * (width - len(row))
 
     def _row(self, row) -> list[str]:
-        return [
-            self._cell(child)
-            for child in row
-            if localname(child) == "entry"
-        ]
+        return [self._cell(child) for child in row if localname(child) == "entry"]
 
     def _cell(self, entry) -> str:
         text = re.sub(r"\s*\n+\s*", " ", self._inline_of(entry)).strip()
@@ -572,11 +583,7 @@ class ModuleRenderer:
         media = [m for m in el.iter() if localname(m) == "media"]
         images = [self.inline_node(m) for m in media]
         if not media:
-            images = [
-                self.inline_node(img)
-                for img in el.iter()
-                if localname(img) == "image"
-            ]
+            images = [self.inline_node(img) for img in el.iter() if localname(img) == "image"]
         images = [img for img in images if img]
         if images:
             parts.append("\n\n".join(images))
@@ -608,12 +615,7 @@ class ModuleRenderer:
         href = self.ctx.media_href(self.module, src)
         alt = (alt_override or el.get("alt") or "").strip()
         alt = re.sub(r"\s+", " ", alt)
-        alt = (
-            alt.replace("\\", "\\\\")
-            .replace("[", "\\[")
-            .replace("]", "\\]")
-            .replace("$", "\\$")
-        )
+        alt = alt.replace("\\", "\\\\").replace("[", "\\[").replace("]", "\\]").replace("$", "\\$")
         return f"![{alt}]({href})"
 
     # -- equations ---------------------------------------------------------
@@ -672,7 +674,6 @@ class ModuleRenderer:
         return self._admonition(label, body, "example")
 
     def _exercise(self, el, depth: int) -> str:
-        title = self._problem_title(el)
         parent = localname(el.getparent()) if el.getparent() is not None else ""
         if self._in_example or parent == "note":
             # the enclosing example/note already carries the label
@@ -733,7 +734,8 @@ class ModuleRenderer:
 
     def _number(self, el) -> str:
         """OpenStax-generated label for an element (``Figure 1.2``, ``Table 1.1``)."""
-        return self.ctx.number(el.get("id"))
+        res = self.ctx.number(el.get("id"))
+        return str(res) if res else ""
 
     def _inline_of_children_title(self, el) -> str:
         for child in el:
@@ -798,8 +800,7 @@ class ModuleRenderer:
     def _is_standalone_math(self, el) -> bool:
         """True for a multi-line/aligned expression that sits alone in its block."""
         multi_line = any(
-            localname(node) == "mtable"
-            or (localname(node) == "mspace" and node.get("linebreak"))
+            localname(node) == "mtable" or (localname(node) == "mspace" and node.get("linebreak"))
             for node in el.iter()
         )
         if not multi_line:
@@ -839,7 +840,11 @@ class ModuleRenderer:
 
     def _link_document(self, document: str, target_id: str | None, text: str, kind: str) -> str:
         target = self.ctx.lookup_target(document, target_id)
-        label = text or (target.label if target else "") or self.ctx.module_titles.get(document, document)
+        label = (
+            text
+            or (target.label if target else "")
+            or self.ctx.module_titles.get(document, document)
+        )
         if target_id and target is None:
             self.ctx.warn(
                 f"{self.module.id}: unresolved target '{target_id}' in link to {document}"

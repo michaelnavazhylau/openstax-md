@@ -98,3 +98,12 @@ def test_single_file_layout_cli(mini_bundle: Path, tmp_path: Path) -> None:
     out = tmp_path / "out"
     assert main([str(mini_bundle), "-o", str(out), "--layout", "single"]) == 0
     assert (out / "demo-book.md").is_file()
+
+
+def test_version_flag(capsys) -> None:
+    try:
+        main(["--version"])
+    except SystemExit as exc:
+        assert exc.code == 0
+    captured = capsys.readouterr()
+    assert "cnxml2md" in captured.out

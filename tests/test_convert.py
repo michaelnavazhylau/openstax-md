@@ -247,3 +247,27 @@ def test_build_report_counts(build_mini, tmp_path: Path) -> None:
     assert report.stats["links_resolved"] >= 3
     assert report.stats["media_linked"] >= 2
     assert report.missing_media == []
+
+
+def test_convert_cnxml_and_mathml_helpers(mini_bundle: Path) -> None:
+    from cnxml2md import convert_cnxml, convert_mathml
+
+    assert (
+        convert_mathml("<m:math><m:msup><m:mi>x</m:mi><m:mn>2</m:mn></m:msup></m:math>")
+        == "$x^{2}$"
+    )
+    assert (
+        convert_mathml("<math><mfrac><mn>1</mn><mn>2</mn></mfrac></math>", display=True)
+        == "$$\n\\frac{1}{2}\n$$"
+    )
+
+    sample_xml = (
+        '<document xmlns="http://cnx.rice.edu/cnxml">'
+        "<content><para>Direct string conversion.</para></content></document>"
+    )
+    md = convert_cnxml(sample_xml)
+    assert "Direct string conversion." in md
+
+    path = mini_bundle / "modules" / "m1" / "index.cnxml"
+    md_file = convert_cnxml(path)
+    assert "Functions" in md_file

@@ -11,6 +11,7 @@ import json
 import sys
 from pathlib import Path
 
+from . import __version__
 from .book import Builder, Bundle, Report, find_bundle_root
 from .cnxml_bridge import CnxmlLib
 from .convert import RenderOptions
@@ -27,8 +28,13 @@ def build_parser() -> argparse.ArgumentParser:
             "(MathML -> LaTeX, cross references resolved, collection aware)."
         ),
     )
-    parser.add_argument("inputs", nargs="*", type=Path, help="bundle root, collection, module dir or index.cnxml")
-    parser.add_argument("-o", "--out", type=Path, default=None, help="output directory (default: ./build/<name>)")
+    parser.add_argument("-v", "--version", action="version", version=f"%(prog)s {__version__}")
+    parser.add_argument(
+        "inputs", nargs="*", type=Path, help="bundle root, collection, module dir or index.cnxml"
+    )
+    parser.add_argument(
+        "-o", "--out", type=Path, default=None, help="output directory (default: ./build/<name>)"
+    )
     parser.add_argument(
         "--layout",
         choices=("mirror", "flat", "single"),
@@ -47,7 +53,9 @@ def build_parser() -> argparse.ArgumentParser:
         default="referenced",
         help="emit <a id> anchors for referenced elements only (default), all ids, or none",
     )
-    parser.add_argument("--math", choices=("dollar", "bracket", "none"), default="dollar", help="math delimiters")
+    parser.add_argument(
+        "--math", choices=("dollar", "bracket", "none"), default="dollar", help="math delimiters"
+    )
     parser.add_argument(
         "--admonitions",
         choices=("bold", "block", "heading"),
@@ -55,16 +63,31 @@ def build_parser() -> argparse.ArgumentParser:
         help="how examples/notes/solutions are labelled",
     )
     parser.add_argument("--no-front-matter", action="store_true", help="omit YAML front matter")
-    parser.add_argument("--collection", action="append", default=None, help="limit to this collection slug (repeatable)")
-    parser.add_argument("--module", action="append", default=None, help="limit to this module id (repeatable)")
-    parser.add_argument("--validate", action="store_true", help="validate CNXML/COLLXML with the cnxml library (needs java)")
+    parser.add_argument(
+        "--collection",
+        action="append",
+        default=None,
+        help="limit to this collection slug (repeatable)",
+    )
+    parser.add_argument(
+        "--module", action="append", default=None, help="limit to this module id (repeatable)"
+    )
+    parser.add_argument(
+        "--validate",
+        action="store_true",
+        help="validate CNXML/COLLXML with the cnxml library (needs java)",
+    )
     parser.add_argument(
         "--with-deps",
         action="store_true",
         help="also build modules referenced from the selection, so cross refs stay links",
     )
-    parser.add_argument("--strict", action="store_true", help="exit non-zero on warnings or validation errors")
-    parser.add_argument("--report", type=Path, default=None, help="write a JSON build report to this path")
+    parser.add_argument(
+        "--strict", action="store_true", help="exit non-zero on warnings or validation errors"
+    )
+    parser.add_argument(
+        "--report", type=Path, default=None, help="write a JSON build report to this path"
+    )
     parser.add_argument("-q", "--quiet", action="store_true", help="only print the summary line")
     return parser
 
@@ -139,7 +162,9 @@ def main(argv: list[str] | None = None) -> int:
     if args.report and reports:
         merged = reports[0] if len(reports) == 1 else _merge(reports)
         args.report.parent.mkdir(parents=True, exist_ok=True)
-        args.report.write_text(json.dumps(merged.to_dict(), indent=2, sort_keys=True), encoding="utf-8")
+        args.report.write_text(
+            json.dumps(merged.to_dict(), indent=2, sort_keys=True), encoding="utf-8"
+        )
 
     if args.strict:
         for report in reports:

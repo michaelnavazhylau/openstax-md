@@ -21,7 +21,7 @@ from pathlib import Path
 from lxml import etree
 
 PROSE = {"para", "item", "entry", "meaning", "caption", "title", "abstract"}
-WORD = re.compile(r"[A-Za-z][A-Za-z'’\-]{2,}")
+WORD = re.compile(r"[A-Za-z][A-Za-z'’\-]{2,}")  # noqa: RUF001
 
 
 def localname(el) -> str:

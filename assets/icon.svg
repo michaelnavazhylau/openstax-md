@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="100%" height="256">
+  <defs>
+    <linearGradient id="iconBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0e17"/>
+      <stop offset="50%" stop-color="#111827"/>
+      <stop offset="100%" stop-color="#0b1120"/>
+    </linearGradient>
+    <linearGradient id="iconBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f97316"/>
+      <stop offset="50%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    <radialGradient id="iconGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="pLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fb923c"/>
+      <stop offset="100%" stop-color="#ea580c"/>
+    </linearGradient>
+    <linearGradient id="pRight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#2563eb"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect x="4" y="4" width="248" height="248" rx="56" fill="url(#iconBg)" stroke="url(#iconBorder)" stroke-width="3"/>
+  <rect x="4" y="4" width="248" height="248" rx="56" fill="url(#iconGlow)"/>
+
+  <!-- Left Page: CNXML / Math -->
+  <g transform="translate(36, 48)">
+    <path d="M 0 14 C 0 6, 6 0, 14 0 L 66 0 C 74 0, 80 6, 80 14 L 80 146 C 80 154, 74 160, 66 160 L 14 160 C 6 160, 0 154, 0 146 Z"
+          fill="url(#pLeft)" opacity="0.2" stroke="#f97316" stroke-width="2.5"/>
+    <path d="M 56 0 L 80 24 L 56 24 Z" fill="#ea580c" opacity="0.7"/>
+
+    <!-- XML Bracket < > -->
+    <path d="M 26 42 L 14 54 L 26 66" fill="none" stroke="#f97316" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 54 42 L 66 54 L 54 66" fill="none" stroke="#f97316" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 44 38 L 36 70" fill="none" stroke="#fdba74" stroke-width="2.5" stroke-linecap="round"/>
+
+    <!-- Integral Math Symbol -->
+    <text x="22" y="112" fill="#fb923c" font-family="-apple-system, sans-serif" font-size="34" font-style="italic" font-weight="800">∫</text>
+    <text x="38" y="112" fill="#fed7aa" font-family="monospace" font-size="16" font-weight="700">dx</text>
+    <text x="24" y="142" fill="#fb923c" font-family="-apple-system, sans-serif" font-size="20">∑</text>
+    <text x="44" y="142" fill="#fed7aa" font-family="monospace" font-size="15">x²</text>
+  </g>
+
+  <!-- Central Flow Arrow -->
+  <g transform="translate(116, 116)">
+    <circle cx="12" cy="12" r="18" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+    <path d="M 8 5 L 16 12 L 8 19" fill="none" stroke="#38bdf8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+  </g>
+
+  <!-- Right Page: Markdown / LaTeX -->
+  <g transform="translate(140, 48)">
+    <path d="M 0 14 C 0 6, 6 0, 14 0 L 66 0 C 74 0, 80 6, 80 14 L 80 146 C 80 154, 74 160, 66 160 L 14 160 C 6 160, 0 154, 0 146 Z"
+          fill="url(#pRight)" opacity="0.22" stroke="#38bdf8" stroke-width="2.5"/>
+    <path d="M 56 0 L 80 24 L 56 24 Z" fill="#2563eb" opacity="0.7"/>
+
+    <!-- Markdown M↓ Box -->
+    <rect x="12" y="38" width="56" height="32" rx="6" fill="#1e293b" stroke="#60a5fa" stroke-width="1.75"/>
+    <path d="M 19 61 L 19 47 L 26 54 L 33 47 L 33 61" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 48 47 L 48 58 M 44 54 L 48 58 L 52 54" fill="none" stroke="#93c5fd" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- LaTeX Formula $$ -->
+    <text x="14" y="108" fill="#38bdf8" font-family="monospace" font-size="15" font-weight="700">$$f(x)$$</text>
+
+    <!-- Document Lines -->
+    <circle cx="18" cy="128" r="3" fill="#60a5fa"/>
+    <rect x="26" y="125" width="40" height="6" rx="3" fill="#94a3b8" opacity="0.7"/>
+    <circle cx="18" cy="144" r="3" fill="#60a5fa"/>
+    <rect x="26" y="141" width="30" height="6" rx="3" fill="#94a3b8" opacity="0.7"/>
+  </g>
+</svg>
