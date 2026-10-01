@@ -7,12 +7,14 @@
 <br/><br/>
 
 [![CI](https://github.com/michaelnavazhylau/openstax-md/actions/workflows/ci.yml/badge.svg)](https://github.com/michaelnavazhylau/openstax-md/actions)
+![Catalog Battle Test](https://img.shields.io/badge/Battle--Test-87%2F87%20books%20passed%20(100%25)-success)
+![Modules Compiled](https://img.shields.io/badge/modules%20compiled-11%2C130-blue)
+![Formulas Typeset](https://img.shields.io/badge/formulas%20typeset-46%2C056-purple)
 ![Python 3.10 | 3.11 | 3.12 | 3.13 | 3.14](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![Checked with mypy](https://img.shields.io/badge/mypy-checked-blue)](https://mypy-lang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![Coverage](https://img.shields.io/badge/coverage-85%25-brightgreen)
-![KaTeX](https://img.shields.io/badge/KaTeX-47k%20formulas%20validated-success)
 
 <p align="center">
   <strong>A high-fidelity compiler transforming OpenStax CNXML/COLLXML textbooks into GitHub Flavored Markdown with LaTeX math, publisher-accurate numbering, and cross-reference resolution.</strong>
@@ -275,6 +277,41 @@ $ node scripts/validate_latex.js build/calculus
 files: 137 | math spans parsed by KaTeX: 47,478 | parse errors: 0
 ```
 
+### 🏆 Full-Catalog Battle Test (87 Volumes Across 54 Repositories)
+
+To guarantee that `openstax-md` functions reliably across every academic discipline, style sheet, and XML structure published by OpenStax, we built an automated sparse-checkout battle test harness ([`scripts/bulk_test.py`](scripts/bulk_test.py)) integrated directly into [GitHub Actions CI](https://github.com/michaelnavazhylau/openstax-md/actions).
+
+The harness cloned and compiled **all 54 OpenStax content repositories** containing **87 distinct textbook volumes**:
+
+| Academic Discipline | Repositories | Textbooks / Volumes | Language | Modules | Formulas | Pass Rate | Unmapped Elements |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| **Mathematics** | 7 | 15 | `en` | 1,987 | 13,858 | **100%** (15/15) | **0** (100% mapped) |
+| **Physical Sciences** | 6 | 11 | `en` | 1,793 | 14,484 | **100%** (11/11) | **0** (100% mapped) |
+| **Life Sciences & Healthcare** | 5 | 9 | `en` | 1,517 | 180 | **100%** (9/9) | **0** (100% mapped) |
+| **Business & Economics** | 10 | 18 | `en` | 1,578 | 1,173 | **100%** (18/18) | **0** (100% mapped) |
+| **Social Sciences & Humanities** | 13 | 16 | `en` | 1,845 | 4 | **100%** (16/16) | **0** (100% mapped) |
+| **Computer Science & Tech** | 4 | 4 | `en` | 275 | 282 | **100%** (4/4) | **0** (100% mapped) |
+| **Spanish Editions (`es`)** | 5 | 9 | `es` | 895 | 11,949 | **100%** (9/9) | **0** (100% mapped) |
+| **Polish Editions (`pl`)** | 4 | 6 | `pl` | 603 | 4,126 | **100%** (6/6) | **0** (100% mapped) |
+| **Grand Total** | **54** | **87 volumes** | `en`/`es`/`pl` | **11,130** | **46,056** | **100.0% (87/87)** | **0 (100% mapped)** |
+
+```text
+$ python scripts/bulk_test.py --all --workers 6
+Starting battle-test across 54 repositories with 6 workers...
+[01/54] osbooks-calculus-bundle             -> 3/3 books passed (4,681 formulas)
+[02/54] osbooks-astronomy                   -> 1/1 books passed (199 modules)
+[03/54] osbooks-introduction-python-programming -> 1/1 books passed (115 modules)
+[04/54] osbooks-principles-economics-bundle -> 5/5 books passed (603 modules)
+[05/54] osbooks-university-physics-bundle   -> 3/3 books passed (3,641 formulas)
+[06/54] osbooks-fizyka-bundle               -> 3/3 books passed (3,800 formulas)
+[07/54] osbooks-calculo-bundle              -> 3/3 books passed (4,678 formulas)
+...
+[54/54] osbooks-life-liberty-and-pursuit-happiness -> 1/1 books passed (532 modules)
+
+Battle Test Summary: 87/87 books passed in 53.4s.
+Total Modules: 11,130 | Math Formulas: 46,056 | Links Resolved: 66,642 | Unmapped Tags: 0
+```
+
 ---
 
 ## 🛠️ Development & Testing
@@ -282,13 +319,15 @@ files: 137 | math spans parsed by KaTeX: 47,478 | parse errors: 0
 A complete [`Makefile`](Makefile) is provided for common development tasks:
 
 ```bash
-make test       # Run fast unit test suite (70+ tests, < 0.5s)
-make test-all   # Run all tests, including full bundle integration
-make lint       # Run ruff check
-make format     # Format code with ruff
-make typecheck  # Run mypy strict type checks
-make check      # Run lint, typecheck, format check, and tests
-make build      # Build wheel and sdist distributions
+make test             # Run fast unit test suite (78 tests, < 0.5s)
+make test-all         # Run all tests, including full bundle integration
+make battle-test      # Fast multi-discipline battle test (8 disciplines, ~9s)
+make battle-test-all  # Complete 87-volume catalog battle test (~50s)
+make lint             # Run ruff check
+make format           # Format code with ruff
+make typecheck        # Run mypy strict type checks
+make check            # Run lint, typecheck, format check, and tests
+make build            # Build wheel and sdist distributions
 ```
 
 ---
