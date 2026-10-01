@@ -126,16 +126,46 @@ flowchart TD
 
 ## 🚀 Installation
 
-`openstax-md` is managed with [uv](https://docs.astral.sh/uv/) and requires Python `>= 3.10`.
+`openstax-md` requires Python `>= 3.10`.
+
+### 1. Global CLI Tool via `uv` (Recommended)
+
+Install `openstax-md` directly from GitHub into an isolated environment using [Astral uv](https://docs.astral.sh/uv/concepts/tools/). The executable is immediately available anywhere in your terminal:
+
+```bash
+# Install globally as a standalone CLI tool
+uv tool install git+https://github.com/michaelnavazhylau/openstax-md.git
+
+# The `openstax-md` command is now available system-wide:
+openstax-md search physics
+openstax-md astronomy-2e -o build/astronomy
+```
+
+> **Tip:** You can also execute `openstax-md` ad-hoc without installing anything using `uvx`:
+> ```bash
+> uvx --from git+https://github.com/michaelnavazhylau/openstax-md.git openstax-md search python
+> ```
+
+To upgrade or remove:
+
+```bash
+uv tool upgrade openstax-md
+uv tool uninstall openstax-md
+```
+
+### 2. From Source (Development)
 
 ```bash
 # Clone the repository
 git clone https://github.com/michaelnavazhylau/openstax-md.git
 cd openstax-md
 
-# Install dependencies and CLI tool
+# Install dependencies and editable tool
 uv sync
 uv pip install -e .
+
+# Or install your local clone as a uv tool:
+uv tool install .
 ```
 
 ---
