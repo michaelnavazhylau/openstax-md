@@ -7,9 +7,21 @@ from pathlib import Path
 from lxml import etree
 
 from .book import BuildContext, Builder, Bundle, CollectionInfo, Entry, find_bundle_root
+from .catalog import (
+    get_cache_dir,
+    list_catalog,
+    load_catalog,
+    pull,
+    resolve_target,
+    search_catalog,
+)
 from .cnxml_bridge import CnxmlLib
 from .convert import ModuleInfo, ModuleRenderer, RenderOptions, Target
 from .mathml import MathMLConverter
+
+#: Convenience aliases
+search = search_catalog
+list_books = list_catalog
 
 __version__ = "0.2.0"
 
@@ -85,4 +97,12 @@ __all__ = [
     "convert_cnxml",
     "convert_mathml",
     "find_bundle_root",
+    "get_cache_dir",
+    "list_books",
+    "list_catalog",
+    "load_catalog",
+    "pull",
+    "resolve_target",
+    "search",
+    "search_catalog",
 ]

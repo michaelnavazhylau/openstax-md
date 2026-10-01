@@ -142,26 +142,66 @@ uv pip install -e .
 
 ## 💻 CLI Usage
 
-The CLI accepts a bundle root directory, a `*.collection.xml` file, a module directory, or a single `index.cnxml` file.
+The CLI operates on local files **or** pulls remote textbooks directly from the OpenStax catalog using Docker-style semantics.
+
+### 1. Docker-Style Remote Pulling & Auto-Fetch
+
+You don't need to manually clone repositories. `openstax-md` bundles an offline index of all 89 OpenStax textbook volumes and performs instant blobless, sparse checkouts on demand:
 
 ```bash
-# 1. Compile an entire bundle (all volumes), mirroring the source layout
+# 🔍 Search the catalog for available textbooks
+openstax-md search physics
+openstax-md search python --json
+
+# 📋 List all available books (filterable by discipline or language)
+openstax-md list --category "Mathematics"
+openstax-md list --lang es   # Spanish editions
+openstax-md list --lang pl   # Polish editions
+
+# 📥 Explicitly pull a textbook into local cache (~2-5 seconds, ~10MB)
+openstax-md pull astronomy-2e
+openstax-md pull calculus-volume-1
+openstax-md pull osbooks-introduction-python-programming
+
+# 🚀 Transparent on-demand compilation (like `docker run`):
+# If the textbook isn't found locally, openstax-md pulls it automatically and compiles!
+openstax-md astronomy-2e -o build/astronomy
+openstax-md calculus-volume-1 --layout flat --media copy -o vault/calculus
+```
+
+### 2. Local File & Bundle Compilation
+
+The CLI also accepts a local bundle root directory, a `*.collection.xml` file, a module directory, or a single `index.cnxml` file:
+
+```bash
+# Compile an entire local bundle (all volumes), mirroring the source layout
 openstax-md osbooks-calculus-bundle -o build/calculus
 
-# 2. Compile one book into an Obsidian/Logseq-friendly flat vault with copied images
+# Compile one book into an Obsidian/Logseq-friendly flat vault with copied images
 openstax-md osbooks-calculus-bundle --collection calculus-volume-1 \
     --layout flat --media copy -o vault/calculus
 
-# 3. Compile an entire book as a single Markdown file (for LLMs or Pandoc PDF export)
+# Compile an entire book as a single Markdown file (for LLMs or Pandoc PDF export)
 openstax-md osbooks-calculus-bundle --collection calculus-volume-1 \
     --layout single -o build/books
 
-# 4. Compile a single module with RNG schema validation and a JSON report
+# Compile a single module with RNG schema validation and a JSON report
 openstax-md osbooks-calculus-bundle/modules/m53477 \
     --validate --report build/report.json -o build/one
 ```
 
-### CLI Flag Reference
+### CLI Command & Flag Reference
+
+#### Commands
+
+| Command | Usage | Description |
+|---|---|---|
+| `pull` | `openstax-md pull <target> [-c <dir>] [--media] [-f]` | Pull textbook into cache using blobless sparse checkout |
+| `search` | `openstax-md search <query> [--category <cat>] [--lang <code>] [--json]` | Search OpenStax catalog for textbooks |
+| `list` | `openstax-md list [--category <cat>] [--lang <code>] [--json]` | List textbooks in catalog |
+| `compile` | `openstax-md [INPUT ...] [OPTIONS]` (default action) | Compile CNXML/COLLXML to Markdown (auto-pulls if remote slug) |
+
+#### Compiler Flags
 
 | Flag | Values | Default | Description |
 |---|---|:---:|---|
@@ -177,6 +217,7 @@ openstax-md osbooks-calculus-bundle/modules/m53477 \
 | `--validate` | flag | `false` | Run `jing.jar` RNG validation (requires Java) |
 | `--strict` | flag | `false` | Exit with non-zero status on warnings, missing media, or schema errors |
 | `--report` | `<path>` | – | Write comprehensive JSON build metrics and statistics |
+| `-c`, `--cache-dir` | `<path>` | `~/.cache/openstax-md` | Custom cache directory for remote checkouts |
 | `-v`, `--version` | flag | – | Show program's version number and exit |
 
 ---
@@ -211,19 +252,40 @@ Import the high-level `openstax_md` package:
 ```python
 import openstax_md as osm
 
-# 1. Convert MathML string to LaTeX
+# 1. Search the catalog and pull books programmatically
+results = osm.search("calculus")
+for book in results:
+    print(f"{book['slug']:25} | {book['title']:35} | {book['category']}")
+
+# Explicit pull (returns local path and collection slug)
+repo_path, slug = osm.pull("astronomy-2e")
+print(f"Cached at {repo_path}")
+
+# 2. Transparent remote bundle discovery & compilation
+# Automatically resolves and pulls if not present locally!
+bundle = osm.Bundle.discover("astronomy-2e")
+builder = osm.Builder(
+    bundle,
+    out_dir="build/astronomy",
+    options=osm.RenderOptions(math="dollar", media="link"),
+    layout="flat",  # "mirror", "flat", or "single"
+)
+report = builder.build()
+print(f"Compiled {report.modules} modules, {report.stats['math']} equations.")
+
+# 3. Convert MathML string to LaTeX
 latex = osm.convert_mathml("<m:math><m:msup><m:mi>x</m:mi><m:mn>2</m:mn></m:msup></m:math>")
 print(latex)
 # => "$x^{2}$"
 
-# 2. Convert MathML with display delimiters
+# 4. Convert MathML with display delimiters
 display_latex = osm.convert_mathml(
     "<m:math><m:mfrac><m:mn>1</m:mn><m:mn>2</m:mn></m:mfrac></m:math>", display=True
 )
 print(display_latex)
 # => "$$\n\\frac{1}{2}\n$$"
 
-# 3. Convert CNXML string or file directly to Markdown (for RAG / ingestion pipelines)
+# 5. Convert CNXML string or file directly to Markdown (for RAG / ingestion pipelines)
 xml = """
 <document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML">
   <title>Derivatives</title>
@@ -234,17 +296,6 @@ xml = """
 """
 markdown = osm.convert_cnxml(xml)
 print(markdown)
-
-# 4. Programmatic bundle compilation
-bundle = osm.Bundle.discover("path/to/openstax-bundle")
-builder = osm.Builder(
-    bundle,
-    out_dir="build/calculus",
-    options=osm.RenderOptions(math="dollar", media="copy"),
-    layout="flat",  # "mirror", "flat", or "single"
-)
-report = builder.build()
-print(f"Compiled {report.modules} modules, {report.stats['math']} equations.")
 ```
 
 ---

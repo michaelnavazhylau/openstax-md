@@ -107,3 +107,64 @@ def test_version_flag(capsys) -> None:
         assert exc.code == 0
     captured = capsys.readouterr()
     assert "openstax-md" in captured.out
+
+
+def test_cli_search(capsys) -> None:
+    assert main(["search", "python"]) == 0
+    captured = capsys.readouterr()
+    assert "introduction-python-programming" in captured.out
+    assert "SLUG" in captured.out
+
+
+def test_cli_search_json(capsys) -> None:
+    assert main(["search", "python", "--json"]) == 0
+    captured = capsys.readouterr()
+    data = json.loads(captured.out)
+    assert isinstance(data, list)
+    assert len(data) >= 1
+    assert data[0]["slug"] == "introduction-python-programming"
+
+
+def test_cli_search_empty(capsys) -> None:
+    assert main(["search", "nonexistent_xyz_query_12345"]) == 0
+    captured = capsys.readouterr()
+    assert "No textbooks found matching" in captured.out
+
+
+def test_cli_list(capsys) -> None:
+    assert main(["list", "--lang", "pl"]) == 0
+    captured = capsys.readouterr()
+    assert "fizyka-dla-szkół-wyższych-tom-1" in captured.out
+
+
+def test_cli_list_json(capsys) -> None:
+    assert main(["list", "--lang", "pl", "--json"]) == 0
+    captured = capsys.readouterr()
+    data = json.loads(captured.out)
+    assert len(data) == 6
+
+
+def test_cli_pull(tmp_path: Path, capsys) -> None:
+    # Set up fake cached bundle
+    cached = tmp_path / "osbooks-astronomy"
+    (cached / "META-INF").mkdir(parents=True)
+    (cached / "META-INF" / "books.xml").write_text("<books/>", encoding="utf-8")
+    (cached / "collections").mkdir(parents=True)
+
+    assert main(["pull", "astronomy-2e", "-c", str(tmp_path)]) == 0
+    captured = capsys.readouterr()
+    assert "Ready:" in captured.out
+    assert "Collection: astronomy-2e" in captured.out
+
+
+def test_cli_compile_remote_auto_pull(mini_bundle: Path, tmp_path: Path, monkeypatch) -> None:
+    import openstax_md.cli as cli_mod
+
+    def mock_pull(target: str, **kwargs):
+        return mini_bundle, "demo-book"
+
+    monkeypatch.setattr(cli_mod, "pull", mock_pull)
+
+    out = tmp_path / "out_remote"
+    assert main(["astronomy-2e", "-o", str(out)]) == 0
+    assert (out / "modules" / "m1" / "index.md").is_file()

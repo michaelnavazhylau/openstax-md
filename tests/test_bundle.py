@@ -118,3 +118,21 @@ def test_metadata_front_matter_comes_from_cnxml_lib(built) -> None:
     text = (out / "modules" / "m53477" / "index.md").read_text(encoding="utf-8")
     assert f'uuid: "{meta["uuid"]}"' in text
     assert f'title: "{meta["title"]}"' in text
+
+
+def test_bundle_discover_remote(mini_bundle: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    import openstax_md.catalog as cat_mod
+
+    def mock_pull(target: str, **kwargs):
+        return mini_bundle, "demo-book"
+
+    monkeypatch.setattr(cat_mod, "pull", mock_pull)
+
+    bundle = Bundle.discover("astronomy-2e")
+    assert bundle.default_collection == "demo-book"
+    assert bundle.root == mini_bundle
+
+
+def test_bundle_discover_nonexistent_target_raises() -> None:
+    with pytest.raises(FileNotFoundError, match="could not be resolved"):
+        Bundle.discover("completely_unknown_xyz_target_12345")

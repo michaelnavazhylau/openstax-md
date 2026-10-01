@@ -1,7 +1,13 @@
-"""Command line interface: ``openstax-md [INPUT ...]``.
+"""Command line interface: ``openstax-md [COMMAND | INPUT ...]``.
 
-INPUT may be a bundle root (containing ``META-INF/books.xml``), a
-``*.collection.xml``, a module directory, or an ``index.cnxml`` file.
+Supports compiling local CNXML bundles/modules and Docker-style remote pulling
+of OpenStax textbooks directly from the catalog.
+
+Commands:
+  pull        Pull a textbook repository into local cache
+  search      Search the OpenStax catalog for textbooks
+  list        List available textbooks in the catalog
+  compile     Compile CNXML/COLLXML to Markdown (default action)
 """
 
 from __future__ import annotations
@@ -10,9 +16,11 @@ import argparse
 import json
 import sys
 from pathlib import Path
+from typing import Any
 
 from . import __version__
 from .book import Builder, Bundle, Report, find_bundle_root
+from .catalog import list_catalog, pull, resolve_target, search_catalog
 from .cnxml_bridge import CnxmlLib
 from .convert import RenderOptions
 
@@ -21,16 +29,28 @@ REPO_ROOT_HINT = Path(__file__).resolve().parents[2] / "cnxml"
 
 
 def build_parser() -> argparse.ArgumentParser:
+    """Build parser for default compilation mode."""
     parser = argparse.ArgumentParser(
         prog="openstax-md",
         description=(
             "Compile OpenStax CNXML/COLLXML content to Markdown "
-            "(MathML -> LaTeX, cross references resolved, collection aware)."
+            "(MathML -> LaTeX, cross references resolved, collection aware). "
+            "Transparently pulls remote textbooks if not found locally."
         ),
+        epilog=(
+            "Textbook discovery commands:\n"
+            "  openstax-md pull <slug|repo|url>   Pull textbook into cache\n"
+            "  openstax-md search <query>         Search catalog for textbooks\n"
+            "  openstax-md list                   List catalog textbooks\n"
+        ),
+        formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument("-v", "--version", action="version", version=f"%(prog)s {__version__}")
     parser.add_argument(
-        "inputs", nargs="*", type=Path, help="bundle root, collection, module dir or index.cnxml"
+        "inputs",
+        nargs="*",
+        type=Path,
+        help="bundle root, collection, module dir, index.cnxml, or catalog slug (e.g. astronomy-2e)",
     )
     parser.add_argument(
         "-o", "--out", type=Path, default=None, help="output directory (default: ./build/<name>)"
@@ -88,7 +108,57 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--report", type=Path, default=None, help="write a JSON build report to this path"
     )
+    parser.add_argument(
+        "-c",
+        "--cache-dir",
+        type=Path,
+        default=None,
+        help="custom cache directory for remote textbooks",
+    )
     parser.add_argument("-q", "--quiet", action="store_true", help="only print the summary line")
+    return parser
+
+
+def _build_pull_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        prog="openstax-md pull",
+        description="Pull an OpenStax textbook repository into local cache using blobless sparse checkout.",
+    )
+    parser.add_argument(
+        "target",
+        help="Textbook slug (e.g. astronomy-2e), repository name, topic alias, or GitHub URL",
+    )
+    parser.add_argument("-c", "--cache-dir", type=Path, default=None, help="custom cache directory")
+    parser.add_argument(
+        "--media", action="store_true", help="include media/ asset directory in sparse checkout"
+    )
+    parser.add_argument(
+        "-f", "--force", action="store_true", help="force re-clone even if already cached"
+    )
+    parser.add_argument("-q", "--quiet", action="store_true", help="suppress progress output")
+    return parser
+
+
+def _build_search_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        prog="openstax-md search",
+        description="Search OpenStax catalog for textbooks.",
+    )
+    parser.add_argument("query", help="search keyword (title, slug, topic, category)")
+    parser.add_argument("--category", default=None, help="filter by academic discipline")
+    parser.add_argument("--lang", default=None, help="filter by language code (en, es, pl)")
+    parser.add_argument("--json", action="store_true", help="output results as JSON")
+    return parser
+
+
+def _build_list_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        prog="openstax-md list",
+        description="List available OpenStax textbooks in catalog.",
+    )
+    parser.add_argument("--category", default=None, help="filter by academic discipline")
+    parser.add_argument("--lang", default=None, help="filter by language code (en, es, pl)")
+    parser.add_argument("--json", action="store_true", help="output results as JSON")
     return parser
 
 
@@ -110,18 +180,112 @@ def _classify(path: Path) -> tuple[str, Path]:
     raise SystemExit(f"error: cannot tell what {path} is")
 
 
-def main(argv: list[str] | None = None) -> int:
+def _print_catalog_table(results: list[dict[str, Any]]) -> None:
+    """Format and print catalog entries as an aligned terminal table."""
+    if not results:
+        return
+    cols = [
+        ("slug", "SLUG", 24),
+        ("repo", "REPO", 26),
+        ("title", "TITLE", 30),
+        ("language", "LANG", 5),
+        ("category", "CATEGORY", 18),
+    ]
+    col_widths = []
+    for key, header, min_w in cols:
+        max_val_w = max((len(str(r.get(key, ""))) for r in results), default=0)
+        w = max(min_w, min(max_val_w, 45 if key in ("title", "category") else 38))
+        col_widths.append((key, header, w))
+
+    header_line = "  ".join(h.ljust(w) for _, h, w in col_widths)
+    sep_line = "  ".join("-" * w for _, _, w in col_widths)
+    print(header_line)
+    print(sep_line)
+    for r in results:
+        parts = []
+        for k, _, w in col_widths:
+            val = str(r.get(k, ""))
+            if len(val) > w:
+                val = val[: w - 1] + "…"
+            parts.append(val.ljust(w))
+        print("  ".join(parts))
+
+
+def _run_pull(argv: list[str]) -> int:
+    parser = _build_pull_parser()
+    args = parser.parse_args(argv)
+    try:
+        repo_dir, col_slug = pull(
+            args.target,
+            cache_dir=args.cache_dir,
+            include_media=args.media,
+            quiet=args.quiet,
+            force=args.force,
+        )
+        if not args.quiet:
+            print(f"Ready: {repo_dir}")
+            if col_slug:
+                print(f"Collection: {col_slug}")
+        return 0
+    except (ValueError, RuntimeError) as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 1
+
+
+def _run_search(argv: list[str]) -> int:
+    parser = _build_search_parser()
+    args = parser.parse_args(argv)
+    results = search_catalog(args.query, category=args.category, lang=args.lang)
+    if args.json:
+        print(json.dumps(results, indent=2, ensure_ascii=False))
+        return 0
+    if not results:
+        print(f"No textbooks found matching '{args.query}'")
+        return 0
+    _print_catalog_table(results)
+    return 0
+
+
+def _run_list(argv: list[str]) -> int:
+    parser = _build_list_parser()
+    args = parser.parse_args(argv)
+    results = list_catalog(category=args.category, lang=args.lang)
+    if args.json:
+        print(json.dumps(results, indent=2, ensure_ascii=False))
+        return 0
+    _print_catalog_table(results)
+    return 0
+
+
+def _run_compile(argv: list[str]) -> int:
     args = build_parser().parse_args(argv)
     inputs = args.inputs or [Path.cwd()]
 
     reports: list[Report] = []
     for raw in inputs:
+        target_collection: str | None = None
+        if not raw.exists():
+            resolved = resolve_target(str(raw))
+            if resolved is None:
+                raise SystemExit(
+                    f"error: cannot tell what {raw} is (not found locally or in OpenStax catalog)"
+                )
+            include_media = args.media == "copy"
+            repo_dir, col_slug = pull(
+                str(raw),
+                cache_dir=args.cache_dir,
+                include_media=include_media,
+                quiet=args.quiet,
+            )
+            raw = repo_dir
+            target_collection = col_slug
+
         kind, root = _classify(raw)
         bundle_root = root if kind == "bundle" else find_bundle_root(root)
         lib = CnxmlLib.load([root, root.parent, REPO_ROOT_HINT])
         if bundle_root is not None:
             bundle = Bundle.discover(bundle_root, lib)
-            default_name = bundle.root.name
+            default_name = target_collection or bundle.root.name
         elif kind == "module":
             bundle = Bundle.from_module(root, lib)
             default_name = next(iter(bundle.modules), "module")
@@ -148,6 +312,9 @@ def main(argv: list[str] | None = None) -> int:
 
         module_ids = args.module
         collection_slugs = args.collection
+        if target_collection and collection_slugs is None:
+            collection_slugs = [target_collection]
+
         if kind == "module" and module_ids is None:
             requested = root.parent.name if root.is_file() else root.name
             module_ids = [requested] if requested in bundle.modules else list(bundle.modules)
@@ -171,6 +338,25 @@ def main(argv: list[str] | None = None) -> int:
             if report.warnings or report.validation_errors or report.missing_media:
                 return 1
     return 0
+
+
+def main(argv: list[str] | None = None) -> int:
+    args_list = sys.argv[1:] if argv is None else list(argv)
+
+    if args_list and args_list[0] in ("-v", "--version"):
+        print(f"openstax-md {__version__}")
+        return 0
+
+    if args_list and args_list[0] == "pull":
+        return _run_pull(args_list[1:])
+    if args_list and args_list[0] == "search":
+        return _run_search(args_list[1:])
+    if args_list and args_list[0] == "list":
+        return _run_list(args_list[1:])
+    if args_list and args_list[0] == "compile":
+        args_list = args_list[1:]
+
+    return _run_compile(args_list)
 
 
 def _merge(reports: list[Report]) -> Report:

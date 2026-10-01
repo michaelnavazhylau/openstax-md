@@ -147,13 +147,42 @@ class Bundle:
         self.targets: dict[str, Target] = {}
         self.targets_by_module: dict[str, dict[str, Target]] = {}
         self.numbering = Numbering()
+        self.default_collection: str | None = None
         self._loaded = False
 
     # -- discovery ---------------------------------------------------------
 
     @classmethod
-    def discover(cls, root: Path, lib: CnxmlLib | None = None) -> Bundle:
-        bundle = cls(root, lib)
+    def discover(
+        cls,
+        root: Path | str,
+        lib: CnxmlLib | None = None,
+        *,
+        cache_dir: Path | str | None = None,
+        include_media: bool = False,
+        quiet: bool = False,
+    ) -> Bundle:
+        target_path = Path(root).expanduser()
+        default_collection: str | None = None
+        if not target_path.exists():
+            from .catalog import pull, resolve_target
+
+            resolved = resolve_target(str(root))
+            if resolved is not None:
+                repo_dir, default_collection = pull(
+                    str(root),
+                    cache_dir=cache_dir,
+                    include_media=include_media,
+                    quiet=quiet,
+                )
+                target_path = repo_dir
+            else:
+                raise FileNotFoundError(
+                    f"Bundle path does not exist and target '{root}' could not be resolved in OpenStax catalog."
+                )
+
+        bundle = cls(target_path, lib)
+        bundle.default_collection = default_collection
         bundle._discover_collections()
         bundle.load_modules()
         bundle.build_index()
@@ -697,6 +726,14 @@ class Builder:
                 mid
                 for collection in self.bundle.collections
                 if collection.slug in wanted
+                for mid in collection.module_ids
+            ]
+        elif ids is None and self.bundle.default_collection is not None:
+            self._selection = [self.bundle.default_collection]
+            ids = [
+                mid
+                for collection in self.bundle.collections
+                if collection.slug == self.bundle.default_collection
                 for mid in collection.module_ids
             ]
         if ids is None:
