@@ -179,26 +179,49 @@ cnxml2md osbooks-calculus-bundle/modules/m53477 \
 
 ---
 
-## 🐍 Python Library API
+## 🐍 Python SDK & Embedding Guide
 
-In addition to the command line, `cnxml2md` provides a clean Python API:
+`openstax-md` can be embedded directly into other Python applications, data pipelines, and RAG/LLM ingestion systems. It ships with PEP 561 typing markers (`py.typed`) for full IDE autocomplete and MyPy/Pyright static type checking.
+
+### Installing into an External Project
+
+```bash
+# Add to your project using uv
+uv add git+https://github.com/michaelnavazhylau/openstax-md.git
+
+# Or install using standard pip
+pip install git+https://github.com/michaelnavazhylau/openstax-md.git
+```
+
+Or declare it directly in your application's `pyproject.toml`:
+
+```toml
+[project]
+dependencies = [
+    "openstax-md @ git+https://github.com/michaelnavazhylau/openstax-md.git",
+]
+```
+
+### SDK Usage Examples
+
+You can import as either `openstax_md` or `cnxml2md`:
 
 ```python
-import cnxml2md
+import openstax_md as osm
 
 # 1. Convert MathML string to LaTeX
-latex = cnxml2md.convert_mathml("<m:math><m:msup><m:mi>x</m:mi><m:mn>2</m:mn></m:msup></m:math>")
+latex = osm.convert_mathml("<m:math><m:msup><m:mi>x</m:mi><m:mn>2</m:mn></m:msup></m:math>")
 print(latex)
 # => "$x^{2}$"
 
 # 2. Convert MathML with display delimiters
-display_latex = cnxml2md.convert_mathml(
+display_latex = osm.convert_mathml(
     "<m:math><m:mfrac><m:mn>1</m:mn><m:mn>2</m:mn></m:mfrac></m:math>", display=True
 )
 print(display_latex)
 # => "$$\n\\frac{1}{2}\n$$"
 
-# 3. Convert CNXML string or file directly to Markdown
+# 3. Convert CNXML string or file directly to Markdown (for RAG / ingestion pipelines)
 xml = """
 <document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML">
   <title>Derivatives</title>
@@ -207,16 +230,16 @@ xml = """
   </content>
 </document>
 """
-markdown = cnxml2md.convert_cnxml(xml)
+markdown = osm.convert_cnxml(xml)
 print(markdown)
 
 # 4. Programmatic bundle compilation
-bundle = cnxml2md.Bundle.discover("path/to/bundle")
-builder = cnxml2md.Builder(
+bundle = osm.Bundle.discover("path/to/openstax-bundle")
+builder = osm.Builder(
     bundle,
     out_dir="build/calculus",
-    options=cnxml2md.RenderOptions(math="dollar", media="copy"),
-    layout="flat",
+    options=osm.RenderOptions(math="dollar", media="copy"),
+    layout="flat",  # "mirror", "flat", or "single"
 )
 report = builder.build()
 print(f"Compiled {report.modules} modules, {report.stats['math']} equations.")

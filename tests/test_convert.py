@@ -271,3 +271,13 @@ def test_convert_cnxml_and_mathml_helpers(mini_bundle: Path) -> None:
     path = mini_bundle / "modules" / "m1" / "index.cnxml"
     md_file = convert_cnxml(path)
     assert "Functions" in md_file
+
+
+def test_openstax_md_alias() -> None:
+    import cnxml2md
+    import openstax_md
+
+    assert openstax_md.__version__ == cnxml2md.__version__
+    assert openstax_md.convert_mathml("<m:math><mi>y</mi></m:math>") == "$y$"
+    assert openstax_md.Bundle is cnxml2md.Bundle
+    assert openstax_md.Builder is cnxml2md.Builder
