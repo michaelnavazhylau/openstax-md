@@ -314,7 +314,11 @@ def main() -> int:
     parser = argparse.ArgumentParser(
         description="Run bulk conversion battle tests across OpenStax books."
     )
-    parser.add_argument("--index", default="_osbooks/index.json", help="Path to catalog index.json")
+    parser.add_argument(
+        "--index",
+        default=None,
+        help="Path to catalog index.json (defaults to src/openstax_md/catalog.json or _osbooks/index.json)",
+    )
     parser.add_argument("--category", help="Limit to specific category")
     parser.add_argument("--repos", nargs="+", help="Specific repository names to test")
     parser.add_argument(
@@ -337,7 +341,13 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    index_path = Path(args.index)
+    if args.index:
+        index_path = Path(args.index)
+    else:
+        pkg_catalog = Path(__file__).resolve().parents[1] / "src" / "openstax_md" / "catalog.json"
+        local_catalog = Path("_osbooks/index.json")
+        index_path = pkg_catalog if pkg_catalog.is_file() else local_catalog
+
     if not index_path.is_file():
         print(
             f"Error: Catalog index not found at {index_path}. Run generate_index.py first.",

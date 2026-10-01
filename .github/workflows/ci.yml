@@ -5,6 +5,16 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      scope:
+        description: "Battle test scope (sample or all)"
+        required: true
+        default: "sample"
+        type: choice
+        options:
+          - sample
+          - all
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -75,3 +85,45 @@ jobs:
         run: |
           uv sync --all-groups
           uv run pytest -m "not bundle"
+
+  battle-test:
+    name: Catalog Battle Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "latest"
+          enable-cache: true
+
+      - name: Set up Python 3.12
+        run: uv python install 3.12
+
+      - name: Install dependencies
+        run: uv sync --all-groups --python 3.12
+
+      - name: Run catalog battle test
+        run: |
+          SCOPE="${{ inputs.scope || 'sample' }}"
+          echo "Running battle test with scope: --$SCOPE"
+          uv run --python 3.12 python scripts/bulk_test.py --$SCOPE --workers 4
+
+      - name: Publish Battle-Test Summary
+        if: always()
+        run: |
+          if [ -f "_osbooks/battle_test_report.md" ]; then
+            cat _osbooks/battle_test_report.md >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Upload Battle-Test Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: battle-test-report
+          path: |
+            _osbooks/battle_test_report.md
+            _osbooks/battle_test_report.json
+

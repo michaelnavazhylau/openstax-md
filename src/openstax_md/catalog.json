@@ -1,0 +1,1710 @@
+{
+  "metadata": {
+    "catalog_title": "OpenStax Textbook Repositories Index",
+    "organization": "openstax",
+    "organization_url": "https://github.com/openstax",
+    "generator": "openstax-md",
+    "total_repositories": 57,
+    "total_books": 89,
+    "categories": [
+      "Polish Editions",
+      "Spanish Editions",
+      "Templates & Sandbox",
+      "Mathematics",
+      "Physical Sciences",
+      "Life Sciences & Healthcare",
+      "Business & Economics",
+      "Social Sciences & Humanities",
+      "Computer Science & Engineering"
+    ]
+  },
+  "repositories": [
+    {
+      "name": "osbooks-fizyka-bundle",
+      "full_name": "openstax/osbooks-fizyka-bundle",
+      "url": "https://github.com/openstax/osbooks-fizyka-bundle",
+      "clone_url": "https://github.com/openstax/osbooks-fizyka-bundle.git",
+      "category": "Polish Editions",
+      "language": "pl",
+      "is_bundle": true,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 3,
+      "books": [
+        {
+          "slug": "fizyka-dla-szkół-wyższych-tom-1",
+          "title": "Fizyka dla szkół wyższych. Tom 1",
+          "style": "pl-u-physics",
+          "collection_id": "col23946",
+          "collection_path": "collections/fizyka-dla-szkół-wyższych-tom-1.collection.xml",
+          "uuid": "4eaa8f03-88a8-485a-a777-dd3602f6c13e",
+          "language": "pl",
+          "license": "Uznanie autorstwa (CC BY)"
+        },
+        {
+          "slug": "fizyka-dla-szkół-wyższych-tom-2",
+          "title": "Fizyka dla szkół wyższych. Tom 2",
+          "style": "pl-u-physics",
+          "collection_id": "col25244",
+          "collection_path": "collections/fizyka-dla-szkół-wyższych-tom-2.collection.xml",
+          "uuid": "16ab5b96-4598-45f9-993c-b8d78d82b0c6",
+          "language": "pl",
+          "license": "Uznanie autorstwa (CC BY)"
+        },
+        {
+          "slug": "fizyka-dla-szkół-wyższych-tom-3",
+          "title": "Fizyka dla szkół wyższych. Tom 3",
+          "style": "pl-u-physics",
+          "collection_id": "col25571",
+          "collection_path": "collections/fizyka-dla-szkół-wyższych-tom-3.collection.xml",
+          "uuid": "bb62933e-f20a-4ffc-90aa-97b36c296c3e",
+          "language": "pl",
+          "license": "Uznanie autorstwa (CC BY)"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-makroekonomia",
+      "full_name": "openstax/osbooks-makroekonomia",
+      "url": "https://github.com/openstax/osbooks-makroekonomia",
+      "clone_url": "https://github.com/openstax/osbooks-makroekonomia.git",
+      "category": "Polish Editions",
+      "language": "pl",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "makroekonomia-podstawy",
+          "title": "Makroekonomia - Podstawy",
+          "style": "pl-economics",
+          "collection_id": "",
+          "collection_path": "collections/makroekonomia-podstawy.collection.xml",
+          "uuid": "823ae3e1-57c4-44c5-b54a-310091040cf6",
+          "language": "pl",
+          "license": "Uznanie autorstwa (CC BY)"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-mikroekonomia",
+      "full_name": "openstax/osbooks-mikroekonomia",
+      "url": "https://github.com/openstax/osbooks-mikroekonomia",
+      "clone_url": "https://github.com/openstax/osbooks-mikroekonomia.git",
+      "category": "Polish Editions",
+      "language": "pl",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "mikroekonomia-podstawy",
+          "title": "Mikroekonomia – Podstawy",
+          "style": "pl-economics",
+          "collection_id": "c9cbc0aa-3afa-448b-8048-3ca2e0ee2f6a",
+          "collection_path": "collections/mikroekonomia-podstawy.collection.xml",
+          "uuid": "c9cbc0aa-3afa-448b-8048-3ca2e0ee2f6a",
+          "language": "pl",
+          "license": "Uznanie autorstwa (CC BY)"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-psychologia",
+      "full_name": "openstax/osbooks-psychologia",
+      "url": "https://github.com/openstax/osbooks-psychologia",
+      "clone_url": "https://github.com/openstax/osbooks-psychologia.git",
+      "category": "Polish Editions",
+      "language": "pl",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "psychologia",
+          "title": "Psychologia",
+          "style": "pl-psychology",
+          "collection_id": "",
+          "collection_path": "collections/psychologia.collection.xml",
+          "uuid": "728df0bb-e07f-489d-91e3-4734a5932f92",
+          "language": "pl",
+          "license": "Uznanie autorstwa (CC BY)"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-calculo-bundle",
+      "full_name": "openstax/osbooks-calculo-bundle",
+      "url": "https://github.com/openstax/osbooks-calculo-bundle",
+      "clone_url": "https://github.com/openstax/osbooks-calculo-bundle.git",
+      "category": "Spanish Editions",
+      "language": "es",
+      "is_bundle": true,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 3,
+      "books": [
+        {
+          "slug": "cálculo-volumen-1",
+          "title": "Cálculo volumen 1",
+          "style": "calculus",
+          "collection_id": "col10002",
+          "collection_path": "collections/cálculo-volumen-1.collection.xml",
+          "uuid": "8635f0be-e734-4cd1-a10e-8063e5b863b6",
+          "language": "es",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike License"
+        },
+        {
+          "slug": "cálculo-volumen-2",
+          "title": "Cálculo volumen 2",
+          "style": "calculus",
+          "collection_id": "col10016",
+          "collection_path": "collections/cálculo-volumen-2.collection.xml",
+          "uuid": "8079f22f-c0a0-43ed-bb35-871d8d9743f3",
+          "language": "es",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike License"
+        },
+        {
+          "slug": "cálculo-volumen-3",
+          "title": "Cálculo volumen 3",
+          "style": "calculus",
+          "collection_id": "col10030",
+          "collection_path": "collections/cálculo-volumen-3.collection.xml",
+          "uuid": "21b1d0df-a716-4205-8e86-0d0787b2c991",
+          "language": "es",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike License"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-fisica-universitaria-bundle",
+      "full_name": "openstax/osbooks-fisica-universitaria-bundle",
+      "url": "https://github.com/openstax/osbooks-fisica-universitaria-bundle",
+      "clone_url": "https://github.com/openstax/osbooks-fisica-universitaria-bundle.git",
+      "category": "Spanish Editions",
+      "language": "es",
+      "is_bundle": true,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 3,
+      "books": [
+        {
+          "slug": "física-universitaria-volumen-1",
+          "title": "Física universitaria volumen 1",
+          "style": "u-physics",
+          "collection_id": "col33393",
+          "collection_path": "collections/física-universitaria-volumen-1.collection.xml",
+          "uuid": "175c88b6-f89b-4eba-9514-bc45e2139a1d",
+          "language": "es",
+          "license": "Creative Commons Attribution License"
+        },
+        {
+          "slug": "física-universitaria-volumen-2",
+          "title": "Física universitaria volumen 2",
+          "style": "u-physics",
+          "collection_id": "col33604",
+          "collection_path": "collections/física-universitaria-volumen-2.collection.xml",
+          "uuid": "da02605d-6d69-447c-a9b9-caf06dc4f413",
+          "language": "es",
+          "license": "Creative Commons Attribution License"
+        },
+        {
+          "slug": "física-universitaria-volumen-3",
+          "title": "Física universitaria volumen 3",
+          "style": "u-physics",
+          "collection_id": "col33833",
+          "collection_path": "collections/física-universitaria-volumen-3.collection.xml",
+          "uuid": "b647a9b9-7631-45a1-a8e7-5acc3a44fc01",
+          "language": "es",
+          "license": "Creative Commons Attribution License"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-introduccion-estadistica-bundle",
+      "full_name": "openstax/osbooks-introduccion-estadistica-bundle",
+      "url": "https://github.com/openstax/osbooks-introduccion-estadistica-bundle",
+      "clone_url": "https://github.com/openstax/osbooks-introduccion-estadistica-bundle.git",
+      "category": "Spanish Editions",
+      "language": "es",
+      "is_bundle": true,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 2,
+      "books": [
+        {
+          "slug": "introducción-estadística",
+          "title": "Introducción a la estadística",
+          "style": "statistics",
+          "collection_id": "col10060",
+          "collection_path": "collections/introducción-estadística.collection.xml",
+          "uuid": "e53d6c8b-fd9e-4a28-8930-c564ca6fd77d",
+          "language": "es",
+          "license": "Creative Commons Attribution License 4.0"
+        },
+        {
+          "slug": "introducción-estadística-empresarial",
+          "title": "Introducción a la estadística empresarial",
+          "style": "statistics",
+          "collection_id": "col10046",
+          "collection_path": "collections/introducción-estadística-empresarial.collection.xml",
+          "uuid": "f346fe75-ae39-4d11-ad32-d80c03df58cb",
+          "language": "es",
+          "license": "Creative Commons Attribution License 4.0"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-precalculo",
+      "full_name": "openstax/osbooks-precalculo",
+      "url": "https://github.com/openstax/osbooks-precalculo",
+      "clone_url": "https://github.com/openstax/osbooks-precalculo.git",
+      "category": "Spanish Editions",
+      "language": "es",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "precálculo-2ed",
+          "title": "Precálculo 2ed",
+          "style": "precalculus",
+          "collection_id": "col10304",
+          "collection_path": "collections/precálculo-2ed.collection.xml",
+          "uuid": "52f5163f-a7e1-4545-b0fa-8001df262ca9",
+          "language": "es",
+          "license": "Creative Commons Attribution License 4.0"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-quimica-bundle",
+      "full_name": "openstax/osbooks-quimica-bundle",
+      "url": "https://github.com/openstax/osbooks-quimica-bundle",
+      "clone_url": "https://github.com/openstax/osbooks-quimica-bundle.git",
+      "category": "Spanish Editions",
+      "language": "es",
+      "is_bundle": true,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 2,
+      "books": [
+        {
+          "slug": "química-2ed",
+          "title": "Química 2ed",
+          "style": "chemistry",
+          "collection_id": "",
+          "collection_path": "collections/química-2ed.collection.xml",
+          "uuid": "462aa3f1-d65d-4cd9-a5ee-3214f95769b8",
+          "language": "es",
+          "license": ""
+        },
+        {
+          "slug": "química-comenzando-átomos-2ed",
+          "title": "Química: Comenzando con los átomos 2ed",
+          "style": "chemistry",
+          "collection_id": "",
+          "collection_path": "collections/química-comenzando-átomos-2ed.collection.xml",
+          "uuid": "9702782f-fd50-4310-92ac-d29d39065419",
+          "language": "es",
+          "license": ""
+        }
+      ]
+    },
+    {
+      "name": "osbooks-playground",
+      "full_name": "openstax/osbooks-playground",
+      "url": "https://github.com/openstax/osbooks-playground",
+      "clone_url": "https://github.com/openstax/osbooks-playground.git",
+      "category": "Templates & Sandbox",
+      "language": "en",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "Test repo for new osbooks",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "playground",
+          "title": "Playground",
+          "style": "dummy",
+          "collection_id": "",
+          "collection_path": "collections/playground.collection.xml",
+          "uuid": "00000000-0000-0000-0000-000000000000",
+          "language": "en",
+          "license": ""
+        }
+      ]
+    },
+    {
+      "name": "template-osbooks",
+      "full_name": "openstax/template-osbooks",
+      "url": "https://github.com/openstax/template-osbooks",
+      "clone_url": "https://github.com/openstax/template-osbooks.git",
+      "category": "Templates & Sandbox",
+      "language": "en",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "Template Repository for OSbooks",
+      "books_count": 0,
+      "books": []
+    },
+    {
+      "name": "template-osbooks-new",
+      "full_name": "openstax/template-osbooks-new",
+      "url": "https://github.com/openstax/template-osbooks-new",
+      "clone_url": "https://github.com/openstax/template-osbooks-new.git",
+      "category": "Templates & Sandbox",
+      "language": "en",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "Template repository for creating a new osbook",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "template-slug",
+          "title": "Replace with Title",
+          "style": "style",
+          "collection_id": "",
+          "collection_path": "collections/template-slug.collection.xml",
+          "uuid": "00000000-0000-0000-0000-000000000000",
+          "language": "language-code",
+          "license": "Creative Commons Attribution License 4.0"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-algebra-1",
+      "full_name": "openstax/osbooks-algebra-1",
+      "url": "https://github.com/openstax/osbooks-algebra-1",
+      "clone_url": "https://github.com/openstax/osbooks-algebra-1.git",
+      "category": "Mathematics",
+      "language": "en",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "algebra-1",
+          "title": "Algebra 1",
+          "style": "algebra-1",
+          "collection_id": "",
+          "collection_path": "collections/algebra-1.collection.xml",
+          "uuid": "c437e8a1-8b36-4723-ba43-b2afd6abad0c",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-calculus-bundle",
+      "full_name": "openstax/osbooks-calculus-bundle",
+      "url": "https://github.com/openstax/osbooks-calculus-bundle",
+      "clone_url": "https://github.com/openstax/osbooks-calculus-bundle.git",
+      "category": "Mathematics",
+      "language": "en",
+      "is_bundle": true,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 3,
+      "books": [
+        {
+          "slug": "calculus-volume-1",
+          "title": "Calculus Volume 1",
+          "style": "calculus",
+          "collection_id": "col11964",
+          "collection_path": "collections/calculus-volume-1.collection.xml",
+          "uuid": "8b89d172-2927-466f-8661-01abc7ccdba4",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        },
+        {
+          "slug": "calculus-volume-2",
+          "title": "Calculus Volume 2",
+          "style": "calculus",
+          "collection_id": "col11965",
+          "collection_path": "collections/calculus-volume-2.collection.xml",
+          "uuid": "1d39a348-071f-4537-85b6-c98912458c3c",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        },
+        {
+          "slug": "calculus-volume-3",
+          "title": "Calculus Volume 3",
+          "style": "calculus",
+          "collection_id": "col11966",
+          "collection_path": "collections/calculus-volume-3.collection.xml",
+          "uuid": "a31cd793-2162-4e9e-acb5-6e6bbd76a5fa",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-college-algebra-bundle",
+      "full_name": "openstax/osbooks-college-algebra-bundle",
+      "url": "https://github.com/openstax/osbooks-college-algebra-bundle",
+      "clone_url": "https://github.com/openstax/osbooks-college-algebra-bundle.git",
+      "category": "Mathematics",
+      "language": "en",
+      "is_bundle": true,
+      "default_branch": "main",
+      "description": "Content Repository for Content Managers of OpenStax",
+      "books_count": 4,
+      "books": [
+        {
+          "slug": "college-algebra-2e",
+          "title": "College Algebra 2e",
+          "style": "precalculus",
+          "collection_id": "col11759",
+          "collection_path": "collections/college-algebra-2e.collection.xml",
+          "uuid": "35d7cce2-48dd-4403-b6a5-e828cb5a17da",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        },
+        {
+          "slug": "precalculus-2e",
+          "title": "Precalculus 2e",
+          "style": "precalculus",
+          "collection_id": "col11667",
+          "collection_path": "collections/precalculus-2e.collection.xml",
+          "uuid": "f021395f-fd63-46cd-ab95-037c6f051730",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        },
+        {
+          "slug": "algebra-and-trigonometry-2e",
+          "title": "Algebra and Trigonometry 2e",
+          "style": "precalculus",
+          "collection_id": "col11758",
+          "collection_path": "collections/algebra-and-trigonometry-2e.collection.xml",
+          "uuid": "eaefdaf1-bda0-4ada-a9fe-f1c065bfcc4e",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        },
+        {
+          "slug": "college-algebra-corequisite-support-2e",
+          "title": "College Algebra with Corequisite Support 2e",
+          "style": "precalculus-coreq",
+          "collection_id": "col32026",
+          "collection_path": "collections/college-algebra-corequisite-support-2e.collection.xml",
+          "uuid": "59024a63-2b1a-4631-94c5-ae275a77b587",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-contemporary-mathematics",
+      "full_name": "openstax/osbooks-contemporary-mathematics",
+      "url": "https://github.com/openstax/osbooks-contemporary-mathematics",
+      "clone_url": "https://github.com/openstax/osbooks-contemporary-mathematics.git",
+      "category": "Mathematics",
+      "language": "en",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "contemporary-mathematics",
+          "title": "Contemporary Mathematics",
+          "style": "contemporary-math",
+          "collection_id": "",
+          "collection_path": "collections/contemporary-mathematics.collection.xml",
+          "uuid": "7193a423-3ad7-4ac6-98dd-90c70e4724b7",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-introductory-statistics-bundle",
+      "full_name": "openstax/osbooks-introductory-statistics-bundle",
+      "url": "https://github.com/openstax/osbooks-introductory-statistics-bundle",
+      "clone_url": "https://github.com/openstax/osbooks-introductory-statistics-bundle.git",
+      "category": "Mathematics",
+      "language": "en",
+      "is_bundle": true,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 2,
+      "books": [
+        {
+          "slug": "introductory-statistics-2e",
+          "title": "Introductory Statistics 2e",
+          "style": "statistics",
+          "collection_id": "col11562",
+          "collection_path": "collections/introductory-statistics-2e.collection.xml",
+          "uuid": "c4b474e4-4e3b-4232-b35c-2c3535bfae73",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        },
+        {
+          "slug": "introductory-business-statistics-2e",
+          "title": "Introductory Business Statistics 2e",
+          "style": "statistics",
+          "collection_id": "col11776",
+          "collection_path": "collections/introductory-business-statistics-2e.collection.xml",
+          "uuid": "547026cb-a330-4809-94bf-126be5f62381",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-prealgebra-bundle",
+      "full_name": "openstax/osbooks-prealgebra-bundle",
+      "url": "https://github.com/openstax/osbooks-prealgebra-bundle",
+      "clone_url": "https://github.com/openstax/osbooks-prealgebra-bundle.git",
+      "category": "Mathematics",
+      "language": "en",
+      "is_bundle": true,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 3,
+      "books": [
+        {
+          "slug": "prealgebra-2e",
+          "title": "Prealgebra 2e",
+          "style": "dev-math",
+          "collection_id": "col30939",
+          "collection_path": "collections/prealgebra-2e.collection.xml",
+          "uuid": "f0fa90be-fca8-43c9-9aad-715c0a2cee2b",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        },
+        {
+          "slug": "elementary-algebra-2e",
+          "title": "Elementary Algebra 2e",
+          "style": "dev-math",
+          "collection_id": "col31130",
+          "collection_path": "collections/elementary-algebra-2e.collection.xml",
+          "uuid": "55931856-c627-418b-a56f-1dd0007683a8",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        },
+        {
+          "slug": "intermediate-algebra-2e",
+          "title": "Intermediate Algebra 2e",
+          "style": "dev-math",
+          "collection_id": "col31234",
+          "collection_path": "collections/intermediate-algebra-2e.collection.xml",
+          "uuid": "4664c267-cd62-4a99-8b28-1cb9b3aee347",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-statistics",
+      "full_name": "openstax/osbooks-statistics",
+      "url": "https://github.com/openstax/osbooks-statistics",
+      "clone_url": "https://github.com/openstax/osbooks-statistics.git",
+      "category": "Mathematics",
+      "language": "en",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "statistics",
+          "title": "Statistics",
+          "style": "statistics",
+          "collection_id": "col30309",
+          "collection_path": "collections/statistics.collection.xml",
+          "uuid": "394a1101-fd8f-4875-84fa-55f15b06ba66",
+          "language": "en",
+          "license": "Creative Commons Attribution License"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-astronomy",
+      "full_name": "openstax/osbooks-astronomy",
+      "url": "https://github.com/openstax/osbooks-astronomy",
+      "clone_url": "https://github.com/openstax/osbooks-astronomy.git",
+      "category": "Physical Sciences",
+      "language": "en",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "astronomy-2e",
+          "title": "Astronomy 2e",
+          "style": "astronomy",
+          "collection_id": "col11992",
+          "collection_path": "collections/astronomy-2e.collection.xml",
+          "uuid": "4c29f9e5-a53d-42c0-bdb5-091990527d79",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-chemistry-bundle",
+      "full_name": "openstax/osbooks-chemistry-bundle",
+      "url": "https://github.com/openstax/osbooks-chemistry-bundle",
+      "clone_url": "https://github.com/openstax/osbooks-chemistry-bundle.git",
+      "category": "Physical Sciences",
+      "language": "en",
+      "is_bundle": true,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 2,
+      "books": [
+        {
+          "slug": "chemistry-2e",
+          "title": "Chemistry 2e",
+          "style": "chemistry",
+          "collection_id": "col26069",
+          "collection_path": "collections/chemistry-2e.collection.xml",
+          "uuid": "7fccc9cf-9b71-44f6-800b-f9457fd64335",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        },
+        {
+          "slug": "chemistry-atoms-first-2e",
+          "title": "Chemistry: Atoms First 2e",
+          "style": "chemistry",
+          "collection_id": "col26488",
+          "collection_path": "collections/chemistry-atoms-first-2e.collection.xml",
+          "uuid": "d9b85ee6-c57f-4861-8208-5ddf261e9c5f",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-college-physics-bundle",
+      "full_name": "openstax/osbooks-college-physics-bundle",
+      "url": "https://github.com/openstax/osbooks-college-physics-bundle",
+      "clone_url": "https://github.com/openstax/osbooks-college-physics-bundle.git",
+      "category": "Physical Sciences",
+      "language": "en",
+      "is_bundle": true,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 2,
+      "books": [
+        {
+          "slug": "college-physics-2e",
+          "title": "College Physics 2e",
+          "style": "college-physics-2e",
+          "collection_id": "col11406",
+          "collection_path": "collections/college-physics-2e.collection.xml",
+          "uuid": "a31df062-930a-4f46-8953-605711e6d204",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        },
+        {
+          "slug": "college-physics-ap-courses-2e",
+          "title": "College Physics for AP® Courses 2e",
+          "style": "ap-physics-2e",
+          "collection_id": "col11844",
+          "collection_path": "collections/college-physics-ap-courses-2e.collection.xml",
+          "uuid": "fc65697b-5a9e-4dfe-ac03-035129f7be28",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-organic-chemistry",
+      "full_name": "openstax/osbooks-organic-chemistry",
+      "url": "https://github.com/openstax/osbooks-organic-chemistry",
+      "clone_url": "https://github.com/openstax/osbooks-organic-chemistry.git",
+      "category": "Physical Sciences",
+      "language": "en",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "organic-chemistry",
+          "title": "Organic Chemistry",
+          "style": "organic-chemistry",
+          "collection_id": "col12345",
+          "collection_path": "collections/organic-chemistry.collection.xml",
+          "uuid": "6c2f7d1d-fbad-42e8-b977-9b903e6cb83b",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-physics",
+      "full_name": "openstax/osbooks-physics",
+      "url": "https://github.com/openstax/osbooks-physics",
+      "clone_url": "https://github.com/openstax/osbooks-physics.git",
+      "category": "Physical Sciences",
+      "language": "en",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "physics",
+          "title": "Physics",
+          "style": "hs-physics",
+          "collection_id": "col12081",
+          "collection_path": "collections/physics.collection.xml",
+          "uuid": "cce64fde-f448-43b8-ae88-27705cceb0da",
+          "language": "en",
+          "license": "Creative Commons Attribution License"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-university-physics-bundle",
+      "full_name": "openstax/osbooks-university-physics-bundle",
+      "url": "https://github.com/openstax/osbooks-university-physics-bundle",
+      "clone_url": "https://github.com/openstax/osbooks-university-physics-bundle.git",
+      "category": "Physical Sciences",
+      "language": "en",
+      "is_bundle": true,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 3,
+      "books": [
+        {
+          "slug": "university-physics-volume-1",
+          "title": "University Physics Volume 1",
+          "style": "u-physics",
+          "collection_id": "col12031",
+          "collection_path": "collections/university-physics-volume-1.collection.xml",
+          "uuid": "d50f6e32-0fda-46ef-a362-9bd36ca7c97d",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        },
+        {
+          "slug": "university-physics-volume-2",
+          "title": "University Physics Volume 2",
+          "style": "u-physics",
+          "collection_id": "col12074",
+          "collection_path": "collections/university-physics-volume-2.collection.xml",
+          "uuid": "7a0f9770-1c44-4acd-9920-1cd9a99f2a1e",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        },
+        {
+          "slug": "university-physics-volume-3",
+          "title": "University Physics Volume 3",
+          "style": "u-physics",
+          "collection_id": "col12067",
+          "collection_path": "collections/university-physics-volume-3.collection.xml",
+          "uuid": "af275420-6050-4707-995c-57b9cc13c358",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-anatomy-physiology",
+      "full_name": "openstax/osbooks-anatomy-physiology",
+      "url": "https://github.com/openstax/osbooks-anatomy-physiology",
+      "clone_url": "https://github.com/openstax/osbooks-anatomy-physiology.git",
+      "category": "Life Sciences & Healthcare",
+      "language": "en",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "anatomy-and-physiology-2e",
+          "title": "Anatomy and Physiology 2e",
+          "style": "anatomy",
+          "collection_id": "col11496",
+          "collection_path": "collections/anatomy-and-physiology-2e.collection.xml",
+          "uuid": "4fd99458-6fdf-49bc-8688-a6dc17a1268d",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-biology-bundle",
+      "full_name": "openstax/osbooks-biology-bundle",
+      "url": "https://github.com/openstax/osbooks-biology-bundle",
+      "clone_url": "https://github.com/openstax/osbooks-biology-bundle.git",
+      "category": "Life Sciences & Healthcare",
+      "language": "en",
+      "is_bundle": true,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 3,
+      "books": [
+        {
+          "slug": "biology-2e",
+          "title": "Biology 2e",
+          "style": "biology",
+          "collection_id": "col24361",
+          "collection_path": "collections/biology-2e.collection.xml",
+          "uuid": "8d50a0af-948b-4204-a71d-4826cba765b8",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        },
+        {
+          "slug": "concepts-biology",
+          "title": "Concepts of Biology",
+          "style": "biology",
+          "collection_id": "col11487",
+          "collection_path": "collections/concepts-biology.collection.xml",
+          "uuid": "b3c1e1d2-839c-42b0-a314-e119a8aafbdd",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        },
+        {
+          "slug": "biology-ap-courses",
+          "title": "Biology for AP&#xAE; Courses",
+          "style": "ap-biology",
+          "collection_id": "col12078",
+          "collection_path": "collections/biology-ap-courses.collection.xml",
+          "uuid": "6c322e32-9fb0-4c4d-a1d7-20c95c5c7af2",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-microbiology",
+      "full_name": "openstax/osbooks-microbiology",
+      "url": "https://github.com/openstax/osbooks-microbiology",
+      "clone_url": "https://github.com/openstax/osbooks-microbiology.git",
+      "category": "Life Sciences & Healthcare",
+      "language": "en",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "microbiology",
+          "title": "Microbiology",
+          "style": "microbiology",
+          "collection_id": "col12087",
+          "collection_path": "collections/microbiology.collection.xml",
+          "uuid": "e42bd376-624b-4c0f-972f-e0c57998e765",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-neuroscience",
+      "full_name": "openstax/osbooks-neuroscience",
+      "url": "https://github.com/openstax/osbooks-neuroscience",
+      "clone_url": "https://github.com/openstax/osbooks-neuroscience.git",
+      "category": "Life Sciences & Healthcare",
+      "language": "en",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "introduction-behavioral-neuroscience",
+          "title": "Introduction to Behavioral Neuroscience",
+          "style": "neuroscience",
+          "collection_id": "",
+          "collection_path": "collections/introduction-behavioral-neuroscience.collection.xml",
+          "uuid": "44175f46-f8f3-41e4-ab0d-35c454db6db8",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-nursing-external-bundle",
+      "full_name": "openstax/osbooks-nursing-external-bundle",
+      "url": "https://github.com/openstax/osbooks-nursing-external-bundle",
+      "clone_url": "https://github.com/openstax/osbooks-nursing-external-bundle.git",
+      "category": "Life Sciences & Healthcare",
+      "language": "en",
+      "is_bundle": true,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 3,
+      "books": [
+        {
+          "slug": "pharmacology",
+          "title": "Pharmacology for Nurses",
+          "style": "nursing-external",
+          "collection_id": "",
+          "collection_path": "collections/pharmacology.collection.xml",
+          "uuid": "2f805b43-bce4-4379-add2-4fbf46700e4c",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        },
+        {
+          "slug": "nutrition",
+          "title": "Nutrition for Nurses",
+          "style": "nursing-external",
+          "collection_id": "",
+          "collection_path": "collections/nutrition.collection.xml",
+          "uuid": "7db4d55f-5c0e-4c05-8b72-841685444165",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        },
+        {
+          "slug": "population-health",
+          "title": "Population Health for Nurses",
+          "style": "nursing-external",
+          "collection_id": "",
+          "collection_path": "collections/population-health.collection.xml",
+          "uuid": "9331ec14-7ea7-4415-a8dd-ee34f0c5f9c4",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-business-ethics",
+      "full_name": "openstax/osbooks-business-ethics",
+      "url": "https://github.com/openstax/osbooks-business-ethics",
+      "clone_url": "https://github.com/openstax/osbooks-business-ethics.git",
+      "category": "Business & Economics",
+      "language": "en",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "business-ethics",
+          "title": "Business Ethics",
+          "style": "business-ethics",
+          "collection_id": "col25722",
+          "collection_path": "collections/business-ethics.collection.xml",
+          "uuid": "914ac66e-e1ec-486d-8a9c-97b0f7a99774",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-business-law",
+      "full_name": "openstax/osbooks-business-law",
+      "url": "https://github.com/openstax/osbooks-business-law",
+      "clone_url": "https://github.com/openstax/osbooks-business-law.git",
+      "category": "Business & Economics",
+      "language": "en",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "business-law-i-essentials-2e",
+          "title": "Business Law I Essentials 2e",
+          "style": "business-ethics",
+          "collection_id": "",
+          "collection_path": "collections/business-law-i-essentials-2e.collection.xml",
+          "uuid": "1e22d1f5-bfd0-4e4e-bbb1-71452f363d19",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-entrepreneurship",
+      "full_name": "openstax/osbooks-entrepreneurship",
+      "url": "https://github.com/openstax/osbooks-entrepreneurship",
+      "clone_url": "https://github.com/openstax/osbooks-entrepreneurship.git",
+      "category": "Business & Economics",
+      "language": "en",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "entrepreneurship",
+          "title": "Entrepreneurship",
+          "style": "entrepreneurship",
+          "collection_id": "col29104",
+          "collection_path": "collections/entrepreneurship.collection.xml",
+          "uuid": "d380510e-6145-4625-b19a-4fa68204b6b1",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-introduction-business",
+      "full_name": "openstax/osbooks-introduction-business",
+      "url": "https://github.com/openstax/osbooks-introduction-business",
+      "clone_url": "https://github.com/openstax/osbooks-introduction-business.git",
+      "category": "Business & Economics",
+      "language": "en",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "introduction-business-2e",
+          "title": "Introduction to Business 2e",
+          "style": "intro-business",
+          "collection_id": "col25734",
+          "collection_path": "collections/introduction-business-2e.collection.xml",
+          "uuid": "71e876a1-22c3-4259-be71-f32796a23e8c",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-principles-accounting-bundle",
+      "full_name": "openstax/osbooks-principles-accounting-bundle",
+      "url": "https://github.com/openstax/osbooks-principles-accounting-bundle",
+      "clone_url": "https://github.com/openstax/osbooks-principles-accounting-bundle.git",
+      "category": "Business & Economics",
+      "language": "en",
+      "is_bundle": true,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 2,
+      "books": [
+        {
+          "slug": "principles-financial-accounting",
+          "title": "Principles of Accounting, Volume 1: Financial Accounting",
+          "style": "accounting",
+          "collection_id": "col25448",
+          "collection_path": "collections/principles-financial-accounting.collection.xml",
+          "uuid": "9ab4ba6d-1e48-486d-a2de-38ae1617ca84",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        },
+        {
+          "slug": "principles-managerial-accounting",
+          "title": "Principles of Accounting, Volume 2: Managerial Accounting",
+          "style": "accounting",
+          "collection_id": "col25479",
+          "collection_path": "collections/principles-managerial-accounting.collection.xml",
+          "uuid": "920d1c8a-606c-4888-bfd4-d1ee27ce1795",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-principles-economics-bundle",
+      "full_name": "openstax/osbooks-principles-economics-bundle",
+      "url": "https://github.com/openstax/osbooks-principles-economics-bundle",
+      "clone_url": "https://github.com/openstax/osbooks-principles-economics-bundle.git",
+      "category": "Business & Economics",
+      "language": "en",
+      "is_bundle": true,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 5,
+      "books": [
+        {
+          "slug": "principles-economics-3e",
+          "title": "Principles of Economics 3e",
+          "style": "economics",
+          "collection_id": "col12122",
+          "collection_path": "collections/principles-economics-3e.collection.xml",
+          "uuid": "4c34671f-b057-4918-8796-38ca1b2f4151",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        },
+        {
+          "slug": "principles-macroeconomics-3e",
+          "title": "Principles of Macroeconomics 3e",
+          "style": "economics",
+          "collection_id": "col12190",
+          "collection_path": "collections/principles-macroeconomics-3e.collection.xml",
+          "uuid": "aff0c733-b223-4dfb-aad6-297bd361bdcf",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        },
+        {
+          "slug": "principles-microeconomics-3e",
+          "title": "Principles of Microeconomics 3e",
+          "style": "economics",
+          "collection_id": "col12170",
+          "collection_path": "collections/principles-microeconomics-3e.collection.xml",
+          "uuid": "759181db-a886-4a98-8f5c-770a83a78832",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        },
+        {
+          "slug": "principles-macroeconomics-ap-courses-2e",
+          "title": "Principles of Macroeconomics for AP® Courses 2e",
+          "style": "economics",
+          "collection_id": "col23729",
+          "collection_path": "collections/principles-macroeconomics-ap-courses-2e.collection.xml",
+          "uuid": "9117cf8c-a8a3-4875-8361-9cb0f1fc9362",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        },
+        {
+          "slug": "principles-microeconomics-ap-courses-2e",
+          "title": "Principles of Microeconomics for AP® Courses 2e",
+          "style": "economics",
+          "collection_id": "col23750",
+          "collection_path": "collections/principles-microeconomics-ap-courses-2e.collection.xml",
+          "uuid": "636cbfd9-4e37-4575-83ab-9dec9029ca4e",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-principles-finance",
+      "full_name": "openstax/osbooks-principles-finance",
+      "url": "https://github.com/openstax/osbooks-principles-finance",
+      "clone_url": "https://github.com/openstax/osbooks-principles-finance.git",
+      "category": "Business & Economics",
+      "language": "en",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "principles-finance-2e",
+          "title": "Principles of Finance 2e",
+          "style": "finance",
+          "collection_id": "",
+          "collection_path": "collections/principles-finance-2e.collection.xml",
+          "uuid": "b8bda7b2-debc-47eb-8372-2639d8ef8b03",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-principles-marketing",
+      "full_name": "openstax/osbooks-principles-marketing",
+      "url": "https://github.com/openstax/osbooks-principles-marketing",
+      "clone_url": "https://github.com/openstax/osbooks-principles-marketing.git",
+      "category": "Business & Economics",
+      "language": "en",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "principles-marketing",
+          "title": "Principles of Marketing",
+          "style": "marketing",
+          "collection_id": "",
+          "collection_path": "collections/principles-marketing.collection.xml",
+          "uuid": "2731eee8-0eb1-4d80-ae83-01b4af642ff6",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-principles-of-management-bundle",
+      "full_name": "openstax/osbooks-principles-of-management-bundle",
+      "url": "https://github.com/openstax/osbooks-principles-of-management-bundle",
+      "clone_url": "https://github.com/openstax/osbooks-principles-of-management-bundle.git",
+      "category": "Business & Economics",
+      "language": "en",
+      "is_bundle": true,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 2,
+      "books": [
+        {
+          "slug": "principles-management",
+          "title": "Principles of Management",
+          "style": "principles-management",
+          "collection_id": "col28330",
+          "collection_path": "collections/principles-management.collection.xml",
+          "uuid": "c3acb2ab-7d5c-45ad-b3cd-e59673fedd4e",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        },
+        {
+          "slug": "organizational-behavior",
+          "title": "Organizational Behavior",
+          "style": "principles-management",
+          "collection_id": "col29124",
+          "collection_path": "collections/organizational-behavior.collection.xml",
+          "uuid": "2d941ab9-ac5b-4eb8-b21c-965d36a4f296",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-workplace-software-skills",
+      "full_name": "openstax/osbooks-workplace-software-skills",
+      "url": "https://github.com/openstax/osbooks-workplace-software-skills",
+      "clone_url": "https://github.com/openstax/osbooks-workplace-software-skills.git",
+      "category": "Business & Economics",
+      "language": "en",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "workplace-software-skills",
+          "title": "Workplace Software and Skills",
+          "style": "bca",
+          "collection_id": "",
+          "collection_path": "collections/workplace-software-skills.collection.xml",
+          "uuid": "3d2454dc-2735-4e24-a7e0-f89a79893699",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-american-government",
+      "full_name": "openstax/osbooks-american-government",
+      "url": "https://github.com/openstax/osbooks-american-government",
+      "clone_url": "https://github.com/openstax/osbooks-american-government.git",
+      "category": "Social Sciences & Humanities",
+      "language": "en",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "american-government-4e",
+          "title": "American Government 4e",
+          "style": "american-government",
+          "collection_id": "col33102",
+          "collection_path": "collections/american-government-4e.collection.xml",
+          "uuid": "cf61aefd-61e9-4bee-8340-db083e1898d9",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-college-success-bundle",
+      "full_name": "openstax/osbooks-college-success-bundle",
+      "url": "https://github.com/openstax/osbooks-college-success-bundle",
+      "clone_url": "https://github.com/openstax/osbooks-college-success-bundle.git",
+      "category": "Social Sciences & Humanities",
+      "language": "en",
+      "is_bundle": true,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 3,
+      "books": [
+        {
+          "slug": "college-success-2e",
+          "title": "College Success 2e",
+          "style": "college-success",
+          "collection_id": "",
+          "collection_path": "collections/college-success-2e.collection.xml",
+          "uuid": "d2d37495-da69-491e-901f-c307ba02c7c7",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        },
+        {
+          "slug": "college-success-concise",
+          "title": "College Success Concise",
+          "style": "college-success",
+          "collection_id": "",
+          "collection_path": "collections/college-success-concise.collection.xml",
+          "uuid": "62a49025-8cd8-407c-9cfb-c7eba55cf1c6",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        },
+        {
+          "slug": "preparing-for-college-success",
+          "title": "Preparing for College Success",
+          "style": "hs-college-success",
+          "collection_id": "",
+          "collection_path": "collections/preparing-for-college-success.collection.xml",
+          "uuid": "503d9717-0d3a-409f-893e-d25740d237dc",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-introduction-anthropology",
+      "full_name": "openstax/osbooks-introduction-anthropology",
+      "url": "https://github.com/openstax/osbooks-introduction-anthropology",
+      "clone_url": "https://github.com/openstax/osbooks-introduction-anthropology.git",
+      "category": "Social Sciences & Humanities",
+      "language": "en",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "introduction-anthropology",
+          "title": "Introduction to Anthropology",
+          "style": "anthropology",
+          "collection_id": "",
+          "collection_path": "collections/introduction-anthropology.collection.xml",
+          "uuid": "cf0085c6-528c-4101-ad26-19c612c5a2fa",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-introduction-intellectual-property",
+      "full_name": "openstax/osbooks-introduction-intellectual-property",
+      "url": "https://github.com/openstax/osbooks-introduction-intellectual-property",
+      "clone_url": "https://github.com/openstax/osbooks-introduction-intellectual-property.git",
+      "category": "Social Sciences & Humanities",
+      "language": "en",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "introduction-intellectual-property",
+          "title": "Introduction to Intellectual Property",
+          "style": "business-ethics",
+          "collection_id": "col32642",
+          "collection_path": "collections/introduction-intellectual-property.collection.xml",
+          "uuid": "1b4ee0ce-ee89-44fa-a5e7-a0db9f0c94b1",
+          "language": "en",
+          "license": "Creative Commons Attribution License"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-introduction-philosophy",
+      "full_name": "openstax/osbooks-introduction-philosophy",
+      "url": "https://github.com/openstax/osbooks-introduction-philosophy",
+      "clone_url": "https://github.com/openstax/osbooks-introduction-philosophy.git",
+      "category": "Social Sciences & Humanities",
+      "language": "en",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "introduction-philosophy-2e",
+          "title": "Introduction to Philosophy 2e",
+          "style": "philosophy",
+          "collection_id": "",
+          "collection_path": "collections/introduction-philosophy-2e.collection.xml",
+          "uuid": "86943012-711e-4e15-bd11-1f41e22e75f1",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-introduction-political-science",
+      "full_name": "openstax/osbooks-introduction-political-science",
+      "url": "https://github.com/openstax/osbooks-introduction-political-science",
+      "clone_url": "https://github.com/openstax/osbooks-introduction-political-science.git",
+      "category": "Social Sciences & Humanities",
+      "language": "en",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "introduction-political-science",
+          "title": "Introduction to Political Science",
+          "style": "political-science",
+          "collection_id": "",
+          "collection_path": "collections/introduction-political-science.collection.xml",
+          "uuid": "89060098-2918-4037-8ebe-d90622d7a6bf",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-introduction-sociology",
+      "full_name": "openstax/osbooks-introduction-sociology",
+      "url": "https://github.com/openstax/osbooks-introduction-sociology",
+      "clone_url": "https://github.com/openstax/osbooks-introduction-sociology.git",
+      "category": "Social Sciences & Humanities",
+      "language": "en",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "introduction-sociology-3e",
+          "title": "Introduction to Sociology 3e",
+          "style": "sociology",
+          "collection_id": "col32649",
+          "collection_path": "collections/introduction-sociology-3e.collection.xml",
+          "uuid": "746f171e-0d6a-4ef2-b69d-367880872f4a",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-life-liberty-and-pursuit-happiness",
+      "full_name": "openstax/osbooks-life-liberty-and-pursuit-happiness",
+      "url": "https://github.com/openstax/osbooks-life-liberty-and-pursuit-happiness",
+      "clone_url": "https://github.com/openstax/osbooks-life-liberty-and-pursuit-happiness.git",
+      "category": "Social Sciences & Humanities",
+      "language": "en",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "life-liberty-and-pursuit-happiness",
+          "title": "Life, Liberty, and the Pursuit of Happiness",
+          "style": "ap-history",
+          "collection_id": "col31596",
+          "collection_path": "collections/life-liberty-and-pursuit-happiness.collection.xml",
+          "uuid": "36004586-651c-4ded-af87-203aca22d946",
+          "language": "en",
+          "license": "Creative Commons Attribution License"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-lifespan-development",
+      "full_name": "openstax/osbooks-lifespan-development",
+      "url": "https://github.com/openstax/osbooks-lifespan-development",
+      "clone_url": "https://github.com/openstax/osbooks-lifespan-development.git",
+      "category": "Social Sciences & Humanities",
+      "language": "en",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "lifespan-development",
+          "title": "Lifespan Development",
+          "style": "lifespan-development",
+          "collection_id": "",
+          "collection_path": "collections/lifespan-development.collection.xml",
+          "uuid": "03481f82-baf1-407d-9bac-e614dae0a694",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-psychology",
+      "full_name": "openstax/osbooks-psychology",
+      "url": "https://github.com/openstax/osbooks-psychology",
+      "clone_url": "https://github.com/openstax/osbooks-psychology.git",
+      "category": "Social Sciences & Humanities",
+      "language": "en",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "psychology-2e",
+          "title": "Psychology 2e",
+          "style": "psychology",
+          "collection_id": "col31502",
+          "collection_path": "collections/psychology-2e.collection.xml",
+          "uuid": "06aba565-9432-40f6-97ee-b8a361f118a8",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-us-history",
+      "full_name": "openstax/osbooks-us-history",
+      "url": "https://github.com/openstax/osbooks-us-history",
+      "clone_url": "https://github.com/openstax/osbooks-us-history.git",
+      "category": "Social Sciences & Humanities",
+      "language": "en",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "us-history",
+          "title": "U.S. History",
+          "style": "history",
+          "collection_id": "col11740",
+          "collection_path": "collections/us-history.collection.xml",
+          "uuid": "a7ba2fb8-8925-4987-b182-5f4429d48daa",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-world-history",
+      "full_name": "openstax/osbooks-world-history",
+      "url": "https://github.com/openstax/osbooks-world-history",
+      "clone_url": "https://github.com/openstax/osbooks-world-history.git",
+      "category": "Social Sciences & Humanities",
+      "language": "en",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 2,
+      "books": [
+        {
+          "slug": "world-history-volume-1",
+          "title": "World History Volume 1, to 1500",
+          "style": "world-history",
+          "collection_id": "col11111",
+          "collection_path": "collections/world-history-volume-1.collection.xml",
+          "uuid": "685e3163-1032-4529-bb3a-f97a54407214",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        },
+        {
+          "slug": "world-history-volume-2",
+          "title": "World History Volume 2, from 1400",
+          "style": "world-history",
+          "collection_id": "col22222",
+          "collection_path": "collections/world-history-volume-2.collection.xml",
+          "uuid": "685e3163-1032-4529-bb3a-f97a54412704",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-writing-guide",
+      "full_name": "openstax/osbooks-writing-guide",
+      "url": "https://github.com/openstax/osbooks-writing-guide",
+      "clone_url": "https://github.com/openstax/osbooks-writing-guide.git",
+      "category": "Social Sciences & Humanities",
+      "language": "en",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "writing-guide",
+          "title": "Writing Guide with Handbook",
+          "style": "english-composition",
+          "collection_id": "",
+          "collection_path": "collections/writing-guide.collection.xml",
+          "uuid": "ee7ce46b-0972-4b2c-bc6e-8998c785cd57",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-additive-manufacturing",
+      "full_name": "openstax/osbooks-additive-manufacturing",
+      "url": "https://github.com/openstax/osbooks-additive-manufacturing",
+      "clone_url": "https://github.com/openstax/osbooks-additive-manufacturing.git",
+      "category": "Computer Science & Engineering",
+      "language": "en",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "additive-manufacturing-essentials",
+          "title": "Additive Manufacturing Essentials",
+          "style": "additive-manufacturing",
+          "collection_id": "",
+          "collection_path": "collections/additive-manufacturing-essentials.collection.xml",
+          "uuid": "851baf99-d993-44bf-8b4d-5b0cadfe2445",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-foundations-information-systems",
+      "full_name": "openstax/osbooks-foundations-information-systems",
+      "url": "https://github.com/openstax/osbooks-foundations-information-systems",
+      "clone_url": "https://github.com/openstax/osbooks-foundations-information-systems.git",
+      "category": "Computer Science & Engineering",
+      "language": "en",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "foundations-information-systems",
+          "title": "Foundations of Information Systems",
+          "style": "information-systems",
+          "collection_id": "",
+          "collection_path": "collections/foundations-information-systems.collection.xml",
+          "uuid": "372b4fed-e101-433d-9ba2-6ab71f087543",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-introduction-python-programming",
+      "full_name": "openstax/osbooks-introduction-python-programming",
+      "url": "https://github.com/openstax/osbooks-introduction-python-programming",
+      "clone_url": "https://github.com/openstax/osbooks-introduction-python-programming.git",
+      "category": "Computer Science & Engineering",
+      "language": "en",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "introduction-python-programming",
+          "title": "Introduction to Python Programming",
+          "style": "python",
+          "collection_id": "",
+          "collection_path": "collections/introduction-python-programming.collection.xml",
+          "uuid": "8d08a72f-5463-4856-b05c-58b0d65f5e61",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    },
+    {
+      "name": "osbooks-principles-data-science",
+      "full_name": "openstax/osbooks-principles-data-science",
+      "url": "https://github.com/openstax/osbooks-principles-data-science",
+      "clone_url": "https://github.com/openstax/osbooks-principles-data-science.git",
+      "category": "Computer Science & Engineering",
+      "language": "en",
+      "is_bundle": false,
+      "default_branch": "main",
+      "description": "",
+      "books_count": 1,
+      "books": [
+        {
+          "slug": "principles-data-science",
+          "title": "Principles of Data Science",
+          "style": "data-science",
+          "collection_id": "",
+          "collection_path": "collections/principles-data-science.collection.xml",
+          "uuid": "54ef6090-af3e-47f9-8277-4a312aff4b2c",
+          "language": "en",
+          "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
+        }
+      ]
+    }
+  ]
+}

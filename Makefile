@@ -1,4 +1,4 @@
-.PHONY: all install test test-all coverage lint format check typecheck build clean help
+.PHONY: all install test test-all battle-test battle-test-all coverage lint format check typecheck build clean help
 
 all: check
 
@@ -11,6 +11,12 @@ test:
 
 test-all:
 	uv run pytest
+
+battle-test:
+	uv run python scripts/bulk_test.py --sample
+
+battle-test-all:
+	uv run python scripts/bulk_test.py --all --workers 6
 
 coverage:
 	uv run pytest --cov=src/openstax_md --cov-report=term-missing
