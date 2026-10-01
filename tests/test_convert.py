@@ -281,3 +281,28 @@ def test_openstax_md_exports() -> None:
     assert openstax_md.Bundle is not None
     assert openstax_md.Builder is not None
     assert openstax_md.convert_cnxml is not None
+
+
+def test_extended_elements_support() -> None:
+    from openstax_md import convert_cnxml
+
+    xml = """
+    <document xmlns="http://cnx.rice.edu/cnxml">
+      <content>
+        <!-- An XML comment that must be cleanly skipped -->
+        <quote>
+          <para>To be or not to be.</para>
+        </quote>
+        <para>Here is a <code>print("hello")</code> call and a footnote<footnote>See notes.</footnote>.</para>
+        <para>A <foreign>sine qua non</foreign> condition and <cite>Wealth of Nations</cite><space count="2"/>end.</para>
+        <preformat lang="python">x = 10\ny = 20</preformat>
+      </content>
+    </document>
+    """
+    md = convert_cnxml(xml)
+    assert "> To be or not to be." in md
+    assert '`print("hello")`' in md
+    assert "^[See notes.]" in md
+    assert "*sine qua non*" in md
+    assert "*Wealth of Nations*" in md
+    assert "```python\nx = 10\ny = 20\n```" in md

@@ -169,6 +169,16 @@ class ModuleRenderer:
             "metadata": self._metadata_block,
             "label": self._label_block,
             "target": self._container,
+            "quote": self._quote_block,
+            "blockquote": self._quote_block,
+            "preformat": self._preformat,
+            "codeblock": self._preformat,
+            "div": self._container,
+            "rule": self._note,
+            "statement": self._container,
+            "proof": self._proof,
+            "featured-links": self._metadata_block,
+            "link-group": self._metadata_block,
         }
         self._inline: dict[str, Callable[[Any], str]] = {
             "emphasis": self._emphasis,
@@ -181,6 +191,13 @@ class ModuleRenderer:
             "media": self._media,
             "image": self._image,
             "caption": self._caption_inline,
+            "footnote": self._footnote,
+            "span": self._span,
+            "foreign": self._foreign,
+            "cite": self._cite,
+            "cite-title": self._cite,
+            "code": self._code,
+            "space": self._space,
         }
 
     # ------------------------------------------------------------------
@@ -279,6 +296,8 @@ class ModuleRenderer:
 
     def block(self, el, depth: int = 0) -> str:
         name = localname(el)
+        if not name:
+            return ""
         handler = self._blocks.get(name)
         if handler is not None:
             body = handler(el, depth)
@@ -329,7 +348,8 @@ class ModuleRenderer:
         seen_title = False
         for child in el:
             name = localname(child)
-            if name == "metadata":
+            if not name or name == "metadata":
+                add_text(child.tail)
                 continue
             if name == "title" and skip_first_title and not seen_title:
                 seen_title = True
@@ -368,6 +388,8 @@ class ModuleRenderer:
 
     def inline_node(self, el) -> str:
         name = localname(el)
+        if not name:
+            return ""
         handler = self._inline.get(name)
         if handler is not None:
             return self._with_anchor(el, handler(el), block=False)
@@ -767,12 +789,57 @@ class ModuleRenderer:
     def _meaning(self, el, depth: int) -> str:
         return self._inline_of(el)
 
+    def _quote_block(self, el, depth: int) -> str:
+        inner = self._content(el, depth).strip()
+        if not inner:
+            return ""
+        return self._quote(inner)
+
+    def _preformat(self, el, depth: int) -> str:
+        text = "".join(el.itertext())
+        lang = el.get("lang") or ""
+        return f"```{lang}\n{text}\n```"
+
+    def _proof(self, el, depth: int) -> str:
+        body = self._content(el, depth).strip()
+        return f"**Proof.** {body} ∎"
+
     # -- inline ------------------------------------------------------------
 
     def _emphasis(self, el) -> str:
         effect = (el.get("effect") or "italics").lower()
         opener, closer = _EMPHASIS.get(effect, ("*", "*"))
         return f"{opener}{self._inline_of(el)}{closer}"
+
+    def _code(self, el) -> str:
+        text = "".join(el.itertext())
+        return f"`{text}`"
+
+    def _footnote(self, el) -> str:
+        inner = self._inline_of(el).strip()
+        if not inner:
+            return ""
+        clean_text = " ".join(inner.split())
+        return f"^[{clean_text}]"
+
+    def _span(self, el) -> str:
+        return self._inline_of(el)
+
+    def _foreign(self, el) -> str:
+        inner = self._inline_of(el).strip()
+        return f"*{inner}*" if inner else ""
+
+    def _cite(self, el) -> str:
+        inner = self._inline_of(el).strip()
+        return f"*{inner}*" if inner else ""
+
+    def _space(self, el) -> str:
+        raw_count = el.get("count")
+        try:
+            count = int(raw_count) if raw_count else 1
+        except ValueError:
+            count = 1
+        return " " * max(1, count)
 
     def _term(self, el) -> str:
         text = self._inline_of(el)
