@@ -1,6 +1,6 @@
-# Contributing to cnxml2md
+# Contributing to openstax-md
 
-Thank you for your interest in contributing to `cnxml2md`! This document provides instructions for setting up your development environment, running tests, and submitting changes.
+Thank you for your interest in contributing to `openstax-md`! This document provides instructions for setting up your development environment, running tests, and submitting changes.
 
 ---
 
@@ -75,7 +75,7 @@ If you have downloaded the OpenStax Calculus bundle (see [`docs/sources.md`](doc
 make test-all
 
 # Compile the full volume
-uv run cnxml2md osbooks-calculus-bundle --collection calculus-volume-1 -o build/calculus-vol1
+uv run openstax-md osbooks-calculus-bundle --collection calculus-volume-1 -o build/calculus-vol1
 
 # Verify output integrity (links, anchors, XML tags, dollar balances)
 uv run python scripts/verify_output.py build/calculus-vol1
@@ -93,8 +93,8 @@ node scripts/validate_latex.js build/calculus-vol1
 ## 📁 Repository Structure
 
 ```text
-cnxml2md/
-├── src/cnxml2md/           # Core library
+openstax-md/
+├── src/openstax_md/        # Core library
 │   ├── __init__.py         # Public exports (convert_cnxml, convert_mathml, etc.)
 │   ├── mathml.py           # Presentation MathML -> LaTeX compiler
 │   ├── convert.py          # CNXML element renderer to CommonMark/GFM

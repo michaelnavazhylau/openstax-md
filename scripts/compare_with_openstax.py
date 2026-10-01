@@ -30,7 +30,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from cnxml2md.book import Bundle
+from openstax_md.book import Bundle
 
 BASE = "https://openstax.org/books/{book}/pages/{page}"
 LABEL_RE = re.compile(r"\b(Figure|Table|Example|Checkpoint)\s+(\d+\.\d+)\b")
@@ -75,7 +75,7 @@ def fetch(url: str, cache: Path, refresh: bool = False) -> str:
     request = urllib.request.Request(
         url,
         headers={
-            "User-Agent": "cnxml2md-validator/0.2 (+https://github.com/openstax/cnxml)",
+            "User-Agent": "openstax-md-validator/0.2 (+https://github.com/michaelnavazhylau/openstax-md)",
             "Accept-Encoding": "gzip",
             "Accept": "text/html",
         },

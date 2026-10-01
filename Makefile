@@ -13,7 +13,7 @@ test-all:
 	uv run pytest
 
 coverage:
-	uv run pytest --cov=src/cnxml2md --cov-report=term-missing
+	uv run pytest --cov=src/openstax_md --cov-report=term-missing
 
 lint:
 	uv run ruff check .

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from cnxml2md.convert import RenderOptions
+from openstax_md.convert import RenderOptions
 
 
 def test_literal_dollar_is_escaped(module_markdown: str) -> None:
@@ -217,7 +217,7 @@ def test_single_file_layout(build_mini, tmp_path: Path) -> None:
 
 
 def test_module_title_used_for_toc_and_paths(mini_bundle: Path) -> None:
-    from cnxml2md.book import Bundle
+    from openstax_md.book import Bundle
 
     bundle = Bundle.discover(mini_bundle)
     assert bundle.modules["m1"].title == "Functions"
@@ -225,7 +225,7 @@ def test_module_title_used_for_toc_and_paths(mini_bundle: Path) -> None:
 
 
 def test_numbering_plan(mini_bundle: Path) -> None:
-    from cnxml2md.book import Bundle
+    from openstax_md.book import Bundle
 
     bundle = Bundle.discover(mini_bundle)
     numbering = bundle.numbering
@@ -250,7 +250,7 @@ def test_build_report_counts(build_mini, tmp_path: Path) -> None:
 
 
 def test_convert_cnxml_and_mathml_helpers(mini_bundle: Path) -> None:
-    from cnxml2md import convert_cnxml, convert_mathml
+    from openstax_md import convert_cnxml, convert_mathml
 
     assert (
         convert_mathml("<m:math><m:msup><m:mi>x</m:mi><m:mn>2</m:mn></m:msup></m:math>")
@@ -273,11 +273,11 @@ def test_convert_cnxml_and_mathml_helpers(mini_bundle: Path) -> None:
     assert "Functions" in md_file
 
 
-def test_openstax_md_alias() -> None:
-    import cnxml2md
+def test_openstax_md_exports() -> None:
     import openstax_md
 
-    assert openstax_md.__version__ == cnxml2md.__version__
+    assert openstax_md.__version__ == "0.2.0"
     assert openstax_md.convert_mathml("<m:math><mi>y</mi></m:math>") == "$y$"
-    assert openstax_md.Bundle is cnxml2md.Bundle
-    assert openstax_md.Builder is cnxml2md.Builder
+    assert openstax_md.Bundle is not None
+    assert openstax_md.Builder is not None
+    assert openstax_md.convert_cnxml is not None

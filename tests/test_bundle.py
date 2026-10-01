@@ -12,9 +12,9 @@ from urllib.parse import unquote
 
 import pytest
 
-from cnxml2md.book import Builder, Bundle
-from cnxml2md.cnxml_bridge import CnxmlLib
-from cnxml2md.convert import RenderOptions
+from openstax_md.book import Builder, Bundle
+from openstax_md.cnxml_bridge import CnxmlLib
+from openstax_md.convert import RenderOptions
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 BUNDLE = REPO_ROOT / "osbooks-calculus-bundle"

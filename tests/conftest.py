@@ -6,8 +6,8 @@ from pathlib import Path
 
 import pytest
 
-from cnxml2md.book import Builder, Bundle
-from cnxml2md.convert import RenderOptions
+from openstax_md.book import Builder, Bundle
+from openstax_md.convert import RenderOptions
 
 M1 = """<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML">
 <title>Functions</title>

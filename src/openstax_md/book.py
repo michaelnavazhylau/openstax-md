@@ -849,7 +849,7 @@ class Builder:
             ("license", meta.get("license_text")),
             ("license_url", meta.get("license_url")),
             ("collection_source", str(collection.source.relative_to(self.bundle.root))),
-            ("generator", "cnxml2md (python)"),
+            ("generator", "openstax-md"),
         ]
         lines = ["---"]
         for key, value in rows:

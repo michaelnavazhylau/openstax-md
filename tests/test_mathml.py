@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from lxml import etree
 
-from cnxml2md.mathml import MathMLConverter
+from openstax_md.mathml import MathMLConverter
 
 M = "http://www.w3.org/1998/Math/MathML"
 

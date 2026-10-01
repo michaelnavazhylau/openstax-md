@@ -26,7 +26,7 @@
 
 [OpenStax](https://openstax.org/) publishes world-class open-source textbooks encoded in **CNXML** (Connexions XML) and **COLLXML** (Collection XML) with embedded **MathML**. While CNXML provides rich pedagogical markup, converting it to Markdown has historically meant losing complex equations, dropping worked examples, breaking links, and losing textbook structure.
 
-`cnxml2md` is a ground-up Python compiler that solves this. It compiles full OpenStax textbook bundles (such as the 3-volume Calculus curriculum, containing 133 modules, ~47,500 MathML expressions, and 1,600+ figures) into pristine Markdown with **zero content loss**, valid LaTeX math, publisher-accurate numbering, and multiple layout targets (developer mirror, PKM/Obsidian vaults, or single-file LLM context windows).
+`openstax-md` is a ground-up Python compiler that solves this. It compiles full OpenStax textbook bundles (such as the 3-volume Calculus curriculum, containing 133 modules, ~47,500 MathML expressions, and 1,600+ figures) into pristine Markdown with **zero content loss**, valid LaTeX math, publisher-accurate numbering, and multiple layout targets (developer mirror, PKM/Obsidian vaults, or single-file LLM context windows).
 
 ---
 
@@ -36,7 +36,7 @@ The original 2016 converter (`Ravenstine/cnxml2md`) was abandoned, fails to run 
 
 Here is the measured comparison compiling **OpenStax Calculus Volume 1** (55 modules):
 
-| Metric | Legacy JS Converter (2016) | `cnxml2md` (Python) | Improvement |
+| Metric | Legacy JS Converter (2016) | `openstax-md` (Python) | Improvement |
 |---|:---:|:---:|:---:|
 | **Output Characters** | 860,270 | **1,736,675** | +101.8% content recovered |
 | **Output Words** | 136,023 | **240,944** | +77.1% content recovered |
@@ -64,7 +64,7 @@ flowchart TD
         A["media/* (Images & Diagrams)"]
     end
 
-    subgraph Core ["cnxml2md Pipeline"]
+    subgraph Core ["openstax-md Pipeline"]
         Discovery["Discovery & Indexing Engine\n(book.py)"]
         Numbering["Chapter-Scoped Numbering Plan\n(Examples, Figures, Tables, Objectives)"]
         MathML["MathML -> LaTeX AST Compiler\n(mathml.py)"]
@@ -124,7 +124,7 @@ flowchart TD
 
 ## 🚀 Installation
 
-`cnxml2md` is managed with [uv](https://docs.astral.sh/uv/) and requires Python `>= 3.10`.
+`openstax-md` is managed with [uv](https://docs.astral.sh/uv/) and requires Python `>= 3.10`.
 
 ```bash
 # Clone the repository
@@ -144,18 +144,18 @@ The CLI accepts a bundle root directory, a `*.collection.xml` file, a module dir
 
 ```bash
 # 1. Compile an entire bundle (all volumes), mirroring the source layout
-cnxml2md osbooks-calculus-bundle -o build/calculus
+openstax-md osbooks-calculus-bundle -o build/calculus
 
 # 2. Compile one book into an Obsidian/Logseq-friendly flat vault with copied images
-cnxml2md osbooks-calculus-bundle --collection calculus-volume-1 \
+openstax-md osbooks-calculus-bundle --collection calculus-volume-1 \
     --layout flat --media copy -o vault/calculus
 
 # 3. Compile an entire book as a single Markdown file (for LLMs or Pandoc PDF export)
-cnxml2md osbooks-calculus-bundle --collection calculus-volume-1 \
+openstax-md osbooks-calculus-bundle --collection calculus-volume-1 \
     --layout single -o build/books
 
 # 4. Compile a single module with RNG schema validation and a JSON report
-cnxml2md osbooks-calculus-bundle/modules/m53477 \
+openstax-md osbooks-calculus-bundle/modules/m53477 \
     --validate --report build/report.json -o build/one
 ```
 
@@ -204,7 +204,7 @@ dependencies = [
 
 ### SDK Usage Examples
 
-You can import as either `openstax_md` or `cnxml2md`:
+Import the high-level `openstax_md` package:
 
 ```python
 import openstax_md as osm
@@ -249,7 +249,7 @@ print(f"Compiled {report.modules} modules, {report.stats['math']} equations.")
 
 ## 🔬 Independent Verification & Quality Benchmarks
 
-Unit tests only test what developers anticipate. To guarantee production-grade fidelity, `cnxml2md` includes **four independent validation checkers** that share no code with the converter:
+Unit tests only test what developers anticipate. To guarantee production-grade fidelity, `openstax-md` includes **four independent validation checkers** that share no code with the converter:
 
 | Checker | Validation Goal | Measured Result |
 |---|---|:---:|
@@ -261,8 +261,8 @@ Unit tests only test what developers anticipate. To guarantee production-grade f
 ### Full-Bundle Benchmark (Calculus Volumes 1, 2, and 3)
 
 ```text
-$ cnxml2md osbooks-calculus-bundle -o build/calculus --report build/report.json --validate
-cnxml2md: 133 modules, 137 files, 47,523 math expressions, 1,631 links resolved, 1,617 images -> build/calculus
+$ openstax-md osbooks-calculus-bundle -o build/calculus --report build/report.json --validate
+openstax-md: 133 modules, 137 files, 47,523 math expressions, 1,631 links resolved, 1,617 images -> build/calculus
 report.json: words=612,562, unhandled_elements={}, missing_media=[], warnings=[], validation_errors=[]
 
 $ python scripts/verify_output.py build/calculus

@@ -45,7 +45,7 @@ jobs:
         run: uv run --python ${{ matrix.python-version }} mypy src
 
       - name: Run unit tests with coverage
-        run: uv run --python ${{ matrix.python-version }} pytest --cov=src/cnxml2md --cov-report=xml --cov-report=term -m "not bundle"
+        run: uv run --python ${{ matrix.python-version }} pytest --cov=src/openstax_md --cov-report=xml --cov-report=term -m "not bundle"
 
       - name: Build wheel and sdist
         run: uv build

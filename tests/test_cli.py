@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from cnxml2md.cli import main
+from openstax_md.cli import main
 
 
 def test_bundle_input(mini_bundle: Path, tmp_path: Path) -> None:
@@ -106,4 +106,4 @@ def test_version_flag(capsys) -> None:
     except SystemExit as exc:
         assert exc.code == 0
     captured = capsys.readouterr()
-    assert "cnxml2md" in captured.out
+    assert "openstax-md" in captured.out

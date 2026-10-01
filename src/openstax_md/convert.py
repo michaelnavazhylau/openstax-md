@@ -246,7 +246,7 @@ class ModuleRenderer:
                 and self._is_relative(self.module.source, self.ctx.bundle_root)
                 else str(self.module.source),
             ),
-            ("generator", "cnxml2md (python)"),
+            ("generator", "openstax-md"),
         ]
         lines = ["---"]
         for key, value in rows:

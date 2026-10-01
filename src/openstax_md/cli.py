@@ -1,4 +1,4 @@
-"""Command line interface: ``cnxml2md [INPUT ...]``.
+"""Command line interface: ``openstax-md [INPUT ...]``.
 
 INPUT may be a bundle root (containing ``META-INF/books.xml``), a
 ``*.collection.xml``, a module directory, or an ``index.cnxml`` file.
@@ -22,7 +22,7 @@ REPO_ROOT_HINT = Path(__file__).resolve().parents[2] / "cnxml"
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="cnxml2md",
+        prog="openstax-md",
         description=(
             "Compile OpenStax CNXML/COLLXML content to Markdown "
             "(MathML -> LaTeX, cross references resolved, collection aware)."
@@ -190,7 +190,7 @@ def _merge(reports: list[Report]) -> Report:
 def _print_report(report: Report, out_dir: Path, quiet: bool = False) -> None:
     stats = report.stats
     print(
-        f"cnxml2md: {report.modules} modules, {len(report.outputs)} files, "
+        f"openstax-md: {report.modules} modules, {len(report.outputs)} files, "
         f"{stats.get('math', 0) + stats.get('equations', 0)} math expressions, "
         f"{stats.get('links_resolved', 0)} links resolved, "
         f"{stats.get('media_linked', 0) + stats.get('media_copied', 0)} images -> {out_dir}"

@@ -1,5 +1,5 @@
 [project]
-name = "cnxml2md"
+name = "openstax-md"
 version = "0.2.0"
 description = "High-fidelity compiler transforming OpenStax CNXML/COLLXML textbooks into GitHub Flavored Markdown with LaTeX math, publisher-accurate numbering, and cross-reference resolution."
 readme = "README.md"
@@ -49,7 +49,8 @@ Repository = "https://github.com/michaelnavazhylau/openstax-md"
 Issues = "https://github.com/michaelnavazhylau/openstax-md/issues"
 
 [project.scripts]
-cnxml2md = "cnxml2md.cli:main"
+openstax-md = "openstax_md.cli:main"
+cnxml2md = "openstax_md.cli:main"
 
 [dependency-groups]
 dev = [
@@ -65,7 +66,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/cnxml2md", "src/openstax_md"]
+packages = ["src/openstax_md"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -99,7 +100,7 @@ ignore = [
 ]
 
 [tool.ruff.lint.isort]
-known-first-party = ["cnxml2md"]
+known-first-party = ["openstax_md"]
 
 [tool.mypy]
 python_version = "3.10"
@@ -113,10 +114,10 @@ module = "cnxml.*"
 ignore_missing_imports = true
 
 [tool.coverage.run]
-source = ["src/cnxml2md"]
+source = ["src/openstax_md"]
 branch = true
 omit = [
-    "src/cnxml2md/__main__.py",
+    "src/openstax_md/__main__.py",
 ]
 
 [tool.coverage.report]
