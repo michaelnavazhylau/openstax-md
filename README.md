@@ -35,11 +35,11 @@
 
 ## ⚡ The Breakthrough: Closing 28 Legacy Gaps
 
-The original 2016 converter (`Ravenstine/cnxml2md`) was abandoned, fails to run on modern Node.js (`primordials is not defined`), stripped MathML into unreadable text, dropped worked examples, and omitted book structures.
+The original 2016 converter ([Ravenstine/cnxml2md](https://github.com/Ravenstine/cnxml2md)) was abandoned, fails to run on modern Node.js (`primordials is not defined`), stripped MathML into unreadable text, dropped worked examples, and omitted book structures.
 
 Here is the measured comparison compiling **OpenStax Calculus Volume 1** (55 modules):
 
-| Metric | Legacy JS Converter (2016) | `openstax-md` (Python) | Improvement |
+| Metric | [Legacy JS Converter (2016)](https://github.com/Ravenstine/cnxml2md) | `openstax-md` (Python) | Improvement |
 |---|:---:|:---:|:---:|
 | **Output Characters** | 860,270 | **1,736,675** | +101.8% content recovered |
 | **Output Words** | 136,023 | **240,944** | +77.1% content recovered |
