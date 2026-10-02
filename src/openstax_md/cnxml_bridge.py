@@ -1,16 +1,24 @@
 """Bridge to the upstream ``cnxml`` python library (openstax/cnxml).
 
-The sibling checkout at ``<workspace>/cnxml`` is the authority for CNXML/COLLXML
-namespaces, RNG validation (via ``jing.jar``) and metadata extraction.  We use it
-when it is importable and fall back to an internal implementation otherwise, so
-the compiler keeps working standalone.
+The upstream library is the authority for CNXML/COLLXML namespaces, RNG
+validation (via ``jing.jar``) and metadata extraction.  It is discovered from,
+in order:
+
+1. ``$CNXML_REPO`` (explicit override),
+2. the search paths passed by the caller (e.g. the bundle root),
+3. the sibling checkout at ``<workspace>/cnxml``,
+4. an installed ``cnxml`` distribution -- ``pip install openstax-md[validation]``.
+
+When none of those resolve we fall back to an internal implementation, so the
+compiler keeps working standalone.
 
 Note: the upstream package still imports ``pkg_resources``, which was removed in
-setuptools 81 -- hence the ``setuptools<81`` pin in ``pyproject.toml``.
+setuptools 81 -- hence the ``setuptools<81`` pin on the ``validation`` extra.
 """
 
 from __future__ import annotations
 
+import importlib.util
 import os
 import sys
 from pathlib import Path
@@ -44,6 +52,23 @@ MDML_NS = FALLBACK_NSMAP["md"]
 MATHML_NS = FALLBACK_NSMAP["m"]
 
 
+def _installed_root() -> Path | None:
+    """Directory holding an installed ``cnxml`` package (``pip install ...[validation]``).
+
+    ``importlib`` has to import the upstream parent package to resolve the
+    submodule, and that parent is exactly where the ``pkg_resources`` import
+    lives -- so a failure here is expected with setuptools >= 81 and is not fatal.
+    """
+    try:
+        spec = importlib.util.find_spec("cnxml.parse")
+    except Exception:
+        return None
+    origin = getattr(spec, "origin", None)
+    if not origin or not origin.endswith("parse.py"):
+        return None
+    return Path(origin).parents[1]
+
+
 def _candidates(search_paths: list[Path]) -> list[Path]:
     """Directories that might hold the ``cnxml`` *project* (containing ``cnxml/``)."""
     env = os.environ.get("CNXML_REPO")
@@ -59,6 +84,10 @@ def _candidates(search_paths: list[Path]) -> list[Path]:
             Path.cwd() / "cnxml",
         ]
     )
+    # Installed distribution last: explicit paths and checkouts win over it.
+    installed = _installed_root()
+    if installed is not None:
+        roots.append(installed)
     out: list[Path] = []
     for root in roots:
         if (root / "cnxml" / "parse.py").is_file():
@@ -112,7 +141,12 @@ class CnxmlLib:
             except Exception as exc:  # pragma: no cover - depends on env
                 lib.reason = f"validation unavailable: {exc}"
             return lib
-        return cls(reason="cnxml library not found; using built-in fallbacks")
+        return cls(
+            reason=(
+                "cnxml library not found (install 'openstax-md[validation]' or set "
+                "CNXML_REPO); using built-in fallbacks"
+            )
+        )
 
     # -- features ----------------------------------------------------------
 
