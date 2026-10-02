@@ -3,14 +3,16 @@
 all: check
 
 install:
-	uv sync --all-groups
+	# --extra validation pulls the upstream cnxml bridge (needs a JRE for --validate).
+	uv sync --all-groups --extra validation
 	uv pip install -e .
 
 test:
 	uv run pytest -m "not bundle"
 
 test-all:
-	uv run pytest
+	# Bundle integration tests assert upstream (cnxml) metadata, so opt into the extra.
+	uv run --extra validation pytest
 
 battle-test:
 	uv run python scripts/bulk_test.py --sample
@@ -49,9 +51,9 @@ docker-run:
 
 help:
 	@echo "Available commands:"
-	@echo "  make install      Install all dev dependencies and editable package"
+	@echo "  make install      Install all dev dependencies (incl. validation extra) and editable package"
 	@echo "  make test         Run fast unit tests (excluding real textbook bundle)"
-	@echo "  make test-all     Run all tests (including bundle integration tests if present)"
+	@echo "  make test-all     Run all tests incl. bundle integration (uses the validation extra)"
 	@echo "  make coverage     Run pytest with branch coverage report"
 	@echo "  make lint         Run ruff linter"
 	@echo "  make format       Format all code using ruff"

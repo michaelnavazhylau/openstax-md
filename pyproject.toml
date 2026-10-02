@@ -4,7 +4,8 @@ version = "0.2.0"
 description = "High-fidelity compiler transforming OpenStax CNXML/COLLXML textbooks into GitHub Flavored Markdown with LaTeX math, publisher-accurate numbering, and cross-reference resolution."
 readme = "README.md"
 requires-python = ">=3.10"
-license = { text = "MIT" }
+license = "MIT"
+license-files = ["LICENSE"]
 authors = [
     { name = "Michael Navazhylau", email = "mikipux7@gmail.com" },
 ]
@@ -38,8 +39,15 @@ classifiers = [
 ]
 dependencies = [
     "lxml>=5.0",
-    # The upstream `cnxml` library (openstax/cnxml) uses pkg_resources for its
-    # bundled RNG schemas + jing.jar; pkg_resources was removed in setuptools 81.
+]
+
+[project.optional-dependencies]
+# Bridge to the upstream `cnxml` library (openstax/cnxml) for CNXML/COLLXML RNG
+# validation via its bundled jing.jar (needs a JRE on PATH).  Upstream imports
+# pkg_resources, which setuptools 81 removed -- hence the pin, scoped to this
+# extra instead of every installation.
+validation = [
+    "cnxml>=3.1",
     "setuptools>=68,<81",
 ]
 
@@ -47,6 +55,8 @@ dependencies = [
 Homepage = "https://github.com/michaelnavazhylau/openstax-md"
 Repository = "https://github.com/michaelnavazhylau/openstax-md"
 Issues = "https://github.com/michaelnavazhylau/openstax-md/issues"
+Changelog = "https://github.com/michaelnavazhylau/openstax-md/blob/main/CHANGELOG.md"
+Documentation = "https://github.com/michaelnavazhylau/openstax-md/tree/main/docs"
 
 [project.scripts]
 openstax-md = "openstax_md.cli:main"
@@ -59,14 +69,28 @@ dev = [
     "ruff>=0.6.0",
     "mypy>=1.11.0",
     "lxml-stubs>=0.5.1",
+    # NOTE: the cnxml bridge is deliberately NOT a dev dependency. Base installs
+    # (`pip install openstax-md`) never have it, so the default test suite must
+    # keep exercising the built-in fallback. Use `uv sync --extra validation`
+    # when you want the upstream metadata/validation paths (see Makefile).
 ]
 
+# hatchling >= 1.27 is required for PEP 639 license expressions / license-files.
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling>=1.27"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/openstax_md"]
+
+[tool.hatch.build.targets.sdist]
+# Keep the sdist to sources + tests + docs; developer-only tooling stays out.
+exclude = [
+    "uv.lock",
+    "package.json",
+    "package-lock.json",
+    ".github/",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
