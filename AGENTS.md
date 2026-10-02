@@ -47,6 +47,7 @@ When authoring or modifying code in this repository, you **MUST** adhere to the 
 ```
 integrating-cnxml/ (openstax-md)
 ├── .github/workflows/ci.yml # Multi-version CI + KaTeX + Battle Test workflow
+├── .github/workflows/publish.yml # Tag-triggered TestPyPI + PyPI release (Trusted Publishing)
 ├── pyproject.toml           # Package configuration & entry points
 ├── Makefile                 # Standard developer targets
 ├── src/
@@ -92,3 +93,35 @@ make battle-test
 # Build wheel and source distributions
 make build
 ```
+
+## 5. Releasing to PyPI
+
+Releases are cut from a tag and published with GitHub Actions Trusted
+Publishing (OIDC) -- there is no long-lived API token anywhere in the repo or
+in repository secrets.
+
+```bash
+# 1. Ensure the tree is green and the changelog has the release entry
+make check
+
+# 2. Tag the version recorded in pyproject.toml (the workflow verifies the match)
+git tag v0.2.0 && git push origin v0.2.0
+```
+
+`publish.yml` then builds, runs `twine check`, uploads to TestPyPI, and finally
+publishes to PyPI. One-time setup lives on PyPI, not in this repo: register the
+project and add a pending trusted publisher (owner, repository, workflow
+`publish.yml`, environment `pypi`).
+
+Pre-flight expectations that CI enforces:
+
+- `pyproject.toml` version == `openstax_md.__version__` == `openstax-md --version`
+  (see `tests/test_packaging.py`).
+- Core install dependencies stay at `lxml` alone; `setuptools<81` is scoped to the
+  `validation` extra so `pip install openstax-md` never downgrades a user's
+  setuptools.
+- The `validation` extra must actually resolve the upstream `cnxml` library
+  (the `packaging` CI job asserts the bridge is live, not just declared).
+
+A manual `workflow_dispatch` run of `publish.yml` republishes the current
+`pyproject.toml` version (useful for recovering a partially failed release).

@@ -1,4 +1,4 @@
-# Gap report: JS `cnxml2md` -> Python `cnxml2md`
+# Gap report: JS `cnxml2md` -> Python `openstax-md`
 
 Scope: compile `osbooks-calculus-bundle` (Calculus Vols 1-3, CC BY-NC-SA 4.0) to
 Markdown with the [`cnxml`](https://github.com/openstax/cnxml) library as the
@@ -14,7 +14,7 @@ baseline), Java (for `jing.jar` validation).
 cd cnxml2md && npm install && node -e "..."            # see "Baseline" below
 # current implementation
 uv sync
-uv run cnxml2md osbooks-calculus-bundle -o build/calculus --report build/report.json --validate
+uv run openstax-md osbooks-calculus-bundle -o build/calculus --report build/report.json --validate
 uv run python scripts/verify_output.py build/calculus
 uv run python scripts/check_completeness.py osbooks-calculus-bundle build/calculus
 npm install && node scripts/validate_latex.js build/calculus
@@ -47,7 +47,7 @@ the *best case* for the JS version: running `node cnxml2md.js` fails outright.
 | # | Gap in `cnxml2md.js` | Evidence before | After | Where |
 |---|---|---|---|---|
 | 1 | Does not run on modern Node (gulp 3) | `primordials is not defined` | pure Python + `uv`, no Node | `pyproject.toml` |
-| 2 | MathML flattened into text | `x1,x2∈I,f(x1)≤f(x2)` | `$x_{1},x_{2}\in I,f(x_{1})\le f(x_{2})$` | `src/cnxml2md/mathml.py` |
+| 2 | MathML flattened into text | `x1,x2∈I,f(x1)≤f(x2)` | `$x_{1},x_{2}\in I,f(x_{1})\le f(x_{2})$` | `src/openstax_md/mathml.py` |
 | 3 | No display math | 0 `$$` blocks | 4,043 display equations, aligned `m:mtable` -> `\begin{matrix}`, piecewise -> `\begin{cases}` | `mathml.py`, `convert.py::_is_standalone_math` |
 | 4 | `<link document=… target-id=…/>` produced nothing | `(see )` | `[Example](../m53495/index.md#fs-id1169739204154)` + `<a id>` anchors | `convert.py::_link*`, `book.py::build_index` |
 | 5 | Worked examples/exercises dropped | no `Example`/`Solution`/`Hint` labels | `**Example: …**`, `**Solution**`, `**Hint**`, `**Checkpoint**` | `convert.py::_example/_exercise/_problem/_solution/_commentary/_note` |
@@ -94,7 +94,7 @@ the *best case* for the JS version: running `node cnxml2md.js` fails outright.
 ## Full-bundle verification (all three volumes)
 
 ```
-cnxml2md: 133 modules, 137 files, 47523 math expressions, 1631 links resolved, 1617 images
+openstax-md: 133 modules, 137 files, 47523 math expressions, 1631 links resolved, 1617 images
 report.json: words=612562, unhandled_elements={}, missing_media=[], warnings=[],
              validation_errors=[] (jing, cnxml 0.7 / collxml 2.0)
 verify_output.py: 3351 links+images checked, 1113 anchors, 0 problems

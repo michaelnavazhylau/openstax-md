@@ -129,12 +129,39 @@ flowchart TD
 
 `openstax-md` requires Python `>= 3.10`.
 
-### 1. Global CLI Tool via `uv` (Recommended)
+| Runtime requirement | Needed for |
+|---|---|
+| Python 3.10+ | everything |
+| `git` on `PATH` | pulling remote textbooks from the catalog (`openstax-md astronomy-2e`) |
+| Java (JRE) on `PATH` | `--validate` (upstream `jing.jar` RNG checks, via the `validation` extra) |
 
-Install `openstax-md` directly from GitHub into an isolated environment using [Astral uv](https://docs.astral.sh/uv/concepts/tools/). The executable is immediately available anywhere in your terminal:
+### 1. From PyPI (Recommended)
 
 ```bash
-# Install globally as a standalone CLI tool
+# As a library dependency
+pip install openstax-md          # or: uv add openstax-md
+
+# As a global CLI tool in an isolated environment
+uv tool install openstax-md
+
+# Or run ad-hoc without installing anything
+uvx openstax-md search physics
+```
+
+Two console scripts are installed: `openstax-md` (canonical) and `cnxml2md` (legacy alias).
+
+Optional extra for upstream CNXML/COLLXML RNG validation:
+
+```bash
+pip install "openstax-md[validation]"
+```
+
+### 2. Global CLI Tool via `uv` (Unreleased Commits)
+
+To track `main` instead of a published release, install [Astral uv](https://docs.astral.sh/uv/concepts/tools/) against the repository. The executable is immediately available anywhere in your terminal:
+
+```bash
+# Install globally from Git
 uv tool install git+https://github.com/michaelnavazhylau/openstax-md.git
 
 # The `openstax-md` command is now available system-wide:
@@ -142,7 +169,7 @@ openstax-md search physics
 openstax-md astronomy-2e -o build/astronomy
 ```
 
-> **Tip:** You can also execute `openstax-md` ad-hoc without installing anything using `uvx`:
+> **Tip:** You can also execute `openstax-md` ad-hoc from Git:
 > ```bash
 > uvx --from git+https://github.com/michaelnavazhylau/openstax-md.git openstax-md search python
 > ```
@@ -154,7 +181,7 @@ uv tool upgrade openstax-md
 uv tool uninstall openstax-md
 ```
 
-### 2. From Source (Development)
+### 3. From Source (Development)
 
 ```bash
 # Clone the repository
@@ -169,7 +196,7 @@ uv pip install -e .
 uv tool install .
 ```
 
-### 3. Docker Container
+### 4. Docker Container
 
 You can build and run `openstax-md` in an isolated container without needing Python or external dependencies installed on your host:
 
@@ -283,10 +310,13 @@ openstax-md osbooks-calculus-bundle/modules/m53477 \
 
 ```bash
 # Add to your project using uv
-uv add git+https://github.com/michaelnavazhylau/openstax-md.git
+uv add openstax-md
 
 # Or install using standard pip
-pip install git+https://github.com/michaelnavazhylau/openstax-md.git
+pip install openstax-md
+
+# Optional: upstream CNXML/COLLXML RNG validation (`--validate`, requires Java)
+pip install "openstax-md[validation]"
 ```
 
 Or declare it directly in your application's `pyproject.toml`:
@@ -294,8 +324,12 @@ Or declare it directly in your application's `pyproject.toml`:
 ```toml
 [project]
 dependencies = [
-    "openstax-md @ git+https://github.com/michaelnavazhylau/openstax-md.git",
+    "openstax-md",
 ]
+
+[project.optional-dependencies]
+# Only if you call --validate / need upstream jing.jar RNG checks
+validation = ["openstax-md[validation]"]
 ```
 
 ### SDK Usage Examples
