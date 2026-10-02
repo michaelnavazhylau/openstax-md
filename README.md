@@ -11,6 +11,7 @@
 ![Modules Compiled](https://img.shields.io/badge/modules%20compiled-11%2C130-blue)
 ![Formulas Typeset](https://img.shields.io/badge/formulas%20typeset-46%2C056-purple)
 ![Python 3.10 | 3.11 | 3.12 | 3.13 | 3.14](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue)
+![Docker Ready](https://img.shields.io/badge/docker-ready-blue?logo=docker&logoColor=white)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![Checked with mypy](https://img.shields.io/badge/mypy-checked-blue)](https://mypy-lang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -166,6 +167,28 @@ uv pip install -e .
 
 # Or install your local clone as a uv tool:
 uv tool install .
+```
+
+### 3. Docker Container
+
+You can build and run `openstax-md` in an isolated container without needing Python or external dependencies installed on your host:
+
+```bash
+# Build the Docker image (or run: make docker-build)
+docker build -t openstax-md .
+
+# View CLI options
+docker run --rm openstax-md --help
+
+# Search or list catalog books
+docker run --rm openstax-md search physics
+docker run --rm openstax-md list --category Mathematics
+
+# Compile a remote textbook into a local directory with persistent cache
+docker run --rm -v $(pwd):/data -v openstax-cache:/cache openstax-md astronomy-2e -o /data/build/astronomy
+
+# Compile a local CNXML bundle or module
+docker run --rm -v $(pwd):/data openstax-md /data/osbooks-calculus-bundle -o /data/build/calculus
 ```
 
 ---

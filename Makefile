@@ -1,4 +1,4 @@
-.PHONY: all install test test-all battle-test battle-test-all coverage lint format check typecheck build clean help
+.PHONY: all install test test-all battle-test battle-test-all coverage lint format check typecheck build clean docker-build docker-run help
 
 all: check
 
@@ -41,15 +41,23 @@ clean:
 	find . -type d -name "__pycache__" -exec rm -rf {} +
 	find . -type f -name "*.pyc" -delete
 
+docker-build:
+	docker build -t openstax-md .
+
+docker-run:
+	docker run --rm -it -v $$(pwd):/data openstax-md
+
 help:
 	@echo "Available commands:"
-	@echo "  make install    Install all dev dependencies and editable package"
-	@echo "  make test       Run fast unit tests (excluding real textbook bundle)"
-	@echo "  make test-all   Run all tests (including bundle integration tests if present)"
-	@echo "  make coverage   Run pytest with branch coverage report"
-	@echo "  make lint       Run ruff linter"
-	@echo "  make format     Format all code using ruff"
-	@echo "  make typecheck  Run mypy type checker"
-	@echo "  make check      Run lint, typecheck, format check, and tests"
-	@echo "  make build      Build sdist and wheel distributions"
-	@echo "  make clean      Clean build caches, distributions, and temp files"
+	@echo "  make install      Install all dev dependencies and editable package"
+	@echo "  make test         Run fast unit tests (excluding real textbook bundle)"
+	@echo "  make test-all     Run all tests (including bundle integration tests if present)"
+	@echo "  make coverage     Run pytest with branch coverage report"
+	@echo "  make lint         Run ruff linter"
+	@echo "  make format       Format all code using ruff"
+	@echo "  make typecheck    Run mypy type checker"
+	@echo "  make check        Run lint, typecheck, format check, and tests"
+	@echo "  make build        Build sdist and wheel distributions"
+	@echo "  make clean        Clean build caches, distributions, and temp files"
+	@echo "  make docker-build Build Docker container image"
+	@echo "  make docker-run   Run interactive Docker container with local volume"

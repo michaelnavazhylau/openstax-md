@@ -1,0 +1,43 @@
+# Git
+.git/
+.gitignore
+.github/
+
+# Python & UV
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Build artifacts
+build/
+dist/
+
+# Test data, bundles & external checkouts
+_osbooks/
+osbooks-calculus-bundle/
+cnxml/
+cnxml2md/
+
+# Node / JS
+node_modules/
+package-lock.json
+package.json
+.cache/
+
+# Docker
+Dockerfile
+.dockerignore
+
+# IDE & Editor
+.idea/
+.vscode/
+*.swp
+*.swo
