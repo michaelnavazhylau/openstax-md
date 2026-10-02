@@ -18,6 +18,12 @@ dist/
 node_modules/
 .cache/
 
+# local credentials -- never commit these
+pypi-creds.env
+.env
+.env.*
+*.pypi-token
+
 # upstream checkouts (reproducible via docs/sources.md, not committed)
 # /cnxml/ = openstax/cnxml, /cnxml2md/ = Ravenstine/cnxml2md baseline,
 # /osbooks-calculus-bundle/ = openstax content (356MB)

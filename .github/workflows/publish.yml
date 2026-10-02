@@ -1,11 +1,23 @@
 name: Publish
 
 # Releases are cut by pushing a tag:  git tag v0.2.0 && git push origin v0.2.0
-# Manual dispatches reuse the same pipeline (useful for recovering a partial run).
+#
+# A manual dispatch defaults to TestPyPI only, so the pipeline can be validated
+# without touching the real index. Pass target=pypi to publish for real (useful
+# for recovering a partially failed release; TestPyPI re-uploads are no-ops).
 on:
   push:
     tags: ["v*"]
   workflow_dispatch:
+    inputs:
+      target:
+        description: "Index to publish to"
+        required: true
+        default: testpypi
+        type: choice
+        options:
+          - testpypi
+          - pypi
 
 permissions:
   contents: read
@@ -68,10 +80,18 @@ jobs:
           repository-url: https://test.pypi.org/legacy/
           # Re-running the workflow for an already-uploaded version is a no-op.
           skip-existing: true
+          # TestPyPI accepts an API token so the pipeline can be exercised before
+          # the trusted publisher exists there. The action selects trusted
+          # publishing when the password is empty, so an unset secret falls back
+          # to OIDC rather than failing.
+          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
 
   pypi:
     name: Publish to PyPI
     needs: testpypi
+    # Tag pushes always publish. A manual dispatch must opt in explicitly, so a
+    # "just testing" run can never reach the real index by accident.
+    if: github.event_name == 'push' || inputs.target == 'pypi'
     runs-on: ubuntu-latest
     environment:
       name: pypi
@@ -85,5 +105,8 @@ jobs:
           name: dist
           path: dist/
 
+      # No `password:` input here on purpose: the real index is reachable only
+      # through OIDC trusted publishing, so no long-lived credential can ever be
+      # used against PyPI.
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1

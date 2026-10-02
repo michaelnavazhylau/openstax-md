@@ -97,8 +97,11 @@ make build
 ## 5. Releasing to PyPI
 
 Releases are cut from a tag and published with GitHub Actions Trusted
-Publishing (OIDC) -- there is no long-lived API token anywhere in the repo or
-in repository secrets.
+Publishing (OIDC). The real index is OIDC-only by design: the `pypi` job has no
+`password:` input, so no long-lived credential can ever be used against PyPI.
+TestPyPI additionally accepts an optional `TEST_PYPI_API_TOKEN` repository secret
+(for dry runs made before a TestPyPI trusted publisher exists); when that secret
+is unset the publish action falls back to OIDC on its own.
 
 ```bash
 # 1. Ensure the tree is green and the changelog has the release entry
@@ -111,7 +114,8 @@ git tag v0.2.0 && git push origin v0.2.0
 `publish.yml` then builds, runs `twine check`, uploads to TestPyPI, and finally
 publishes to PyPI. One-time setup lives on PyPI, not in this repo: register the
 project and add a pending trusted publisher (owner, repository, workflow
-`publish.yml`, environment `pypi`).
+`publish.yml`, environment `pypi`, plus a second one on TestPyPI for environment
+`testpypi`).
 
 Pre-flight expectations that CI enforces:
 
@@ -123,5 +127,8 @@ Pre-flight expectations that CI enforces:
 - The `validation` extra must actually resolve the upstream `cnxml` library
   (the `packaging` CI job asserts the bridge is live, not just declared).
 
-A manual `workflow_dispatch` run of `publish.yml` republishes the current
-`pyproject.toml` version (useful for recovering a partially failed release).
+A manual `workflow_dispatch` run defaults to `target: testpypi`, so it can
+validate the pipeline without reaching the real index; pass `target: pypi` to
+publish for real (useful for recovering a partially failed release -- TestPyPI
+re-uploads are no-ops). The tag/version guard only runs on tag pushes, so a
+recovery dispatch publishes whatever `pyproject.toml` currently declares.
