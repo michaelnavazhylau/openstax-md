@@ -71,6 +71,17 @@ wheels = [
 ]
 
 [[package]]
+name = "cnxml"
+version = "3.1.9"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "lxml" },
+]
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/8c/bb/259ac45f9629aaabb40820c2c37e82607129166c2c8f0ce7eb0dc216eef6/cnxml-3.1.9-py3-none-any.whl", hash = "sha256:6cc23dfb2c0dfd9cf179850f2f9274231d9406e74112cc7a28559e45fc19248d", size = 916633, upload-time = "2022-07-06T20:47:19.732Z" },
+]
+
+[[package]]
 name = "colorama"
 version = "0.4.6"
 source = { registry = "https://pypi.org/simple" }
@@ -608,6 +619,11 @@ version = "0.2.0"
 source = { editable = "." }
 dependencies = [
     { name = "lxml" },
+]
+
+[package.optional-dependencies]
+validation = [
+    { name = "cnxml" },
     { name = "setuptools" },
 ]
 
@@ -622,9 +638,11 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "cnxml", marker = "extra == 'validation'", specifier = ">=3.1" },
     { name = "lxml", specifier = ">=5.0" },
-    { name = "setuptools", specifier = ">=68,<81" },
+    { name = "setuptools", marker = "extra == 'validation'", specifier = ">=68,<81" },
 ]
+provides-extras = ["validation"]
 
 [package.metadata.requires-dev]
 dev = [
