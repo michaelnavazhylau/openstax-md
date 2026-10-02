@@ -60,6 +60,56 @@ jobs:
       - name: Build wheel and sdist
         run: uv build
 
+  packaging:
+    name: Packaging & validation extra
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Build distributions
+        run: uv build
+
+      - name: Core wheel must not require setuptools
+        run: |
+          python3 - <<'PY'
+          import glob, zipfile
+
+          (wheel,) = glob.glob("dist/*.whl")
+          with zipfile.ZipFile(wheel) as zf:
+              name = next(n for n in zf.namelist() if n.endswith("METADATA"))
+              meta = zf.read(name).decode()
+
+          requires = [l for l in meta.splitlines() if l.startswith("Requires-Dist:")]
+          core = [l for l in requires if "extra ==" not in l]
+          extra_deps = [l for l in requires if l not in core]
+          print("core:", core)
+          print("extras:", extra_deps)
+
+          assert not any("setuptools" in l for l in core), "setuptools leaked into core deps"
+          assert any("validation" in l for l in extra_deps), "validation extra missing"
+          assert "License-Expression: MIT" in meta, "PEP 639 license metadata missing"
+          PY
+
+      - name: Install the validation extra
+        run: uv sync --no-default-groups --extra validation
+
+      - name: cnxml bridge resolves the installed library
+        run: |
+          uv run --no-default-groups --extra validation python - <<'PY'
+          from openstax_md import CnxmlLib
+
+          lib = CnxmlLib.load()
+          assert lib.available, lib.reason
+          assert lib.validation_available, lib.reason
+          print("cnxml bridge OK:", lib.source)
+          PY
+
   katex-validation:
     name: KaTeX Math Validator (Node.js)
     runs-on: ubuntu-latest
